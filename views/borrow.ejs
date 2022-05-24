@@ -1,0 +1,38 @@
+<%- include('header.ejs') -%>
+    
+<h1><%= title %></h1>
+
+<h3>All Club Gear</h3>
+<form enctype="application/x-www-form-urlencoded" method="post">
+    <table>
+            <tr>
+                <th>Gear ID</th>
+                <th>Category</th>
+                <th>Manufacturer</th>
+                <th>Product</th>
+                <th>Color</th>
+                <th>Available</th>
+                <th>Quantity?</th>
+            </tr>
+        <% allGear.forEach( (row) => { %>
+            <tr>
+                <td><%= row.gear_id %></td>
+                <td><%= row.category %></td>
+                <td><%= row.manufacturer %></td>
+                <td><%= row.product_name %></td>
+                <td><%= row.color %></td>
+                <td><%= row.available %> / <%= row.quantity %></td>
+                <td>
+                    <input
+                        type="text"
+                        value="0"
+                        name="<%= row.gear_id %>"
+                        >
+                </td>    
+            </tr><% }); %>
+    </table>
+    <input type="submit" >
+</form>
+
+
+<%- include('footer.ejs') -%>

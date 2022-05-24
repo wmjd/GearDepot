@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+
+  <nav>
+    <% if(title == "Home"){ %> 
+      <a class="currentLink" href="/">Home</a> |
+    <% } else { %>
+      <a href="/">Home</a> |
+    <% } %>
+    
+    <% if(title == "Borrow"){ %> 
+      <a class="currentLink" href="/borrow">Borrow</a> |
+    <% } else { %>
+      <a href="/borrow">Borrow</a> |
+    <% } %>
+
+    <% if(title == "Return"){ %> 
+      <a class="currentLink" href="/return">Return</a> 
+    <% } else { %>
+      <a href="/return">Return</a> 
+    <% } %>
+  </nav>
