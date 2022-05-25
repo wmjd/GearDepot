@@ -41,19 +41,18 @@ router.post('/borrow', function(req, res, next) {
   // I EVENTURALLY NEED TO ADD MORE FIELDS TO THIS TUPLE: date_out, destination, also need to get user somehow
 
   let rows = ""
-  const arr = Object.keys(req.body)
-  arr.forEach( (gear_id, index) => {
+  const nonZeroIDs = Object.keys(req.body).filter( id => req.body[id] !== "0")
+  nonZeroIDs.forEach( (gear_id, index) => {
 
     const quantity = req.body[gear_id]
     const date_out = "'5999-01-30'"
     const destination = "'Yosemite'"
-
-    if (quantity !== "0"){
-      console.log("logging pairs w/ nonzero quantities:", gear_id, quantity);
-      rows += `(NULL, ${gear_id}, 'wdiebolt', ${quantity}, ${date_out}, NULL, ${destination})`;
-      rows += (index == arr.length-1 ? ";" : ",") //adds seperators orelse terminator
-      console.log(index, arr.length)
-    }
+    console.log("logging pairs w/ nonzero quantities:", gear_id, quantity);
+   
+    rows += `(NULL, ${gear_id}, 'wdiebolt', ${quantity}, ${date_out}, NULL, ${destination})`;
+    rows += (index == nonZeroIDs.length-1 ? ";" : ",") //adds seperators orelse terminator
+    //console.log(index, nonZeroIDs.length)
+  
 
 
   });
