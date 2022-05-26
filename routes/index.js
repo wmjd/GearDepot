@@ -52,9 +52,6 @@ router.post('/borrow', function(req, res, next) {
     rows += `(NULL, ${gear_id}, 'wdiebolt', ${quantity}, ${date_out}, NULL, ${destination})`;
     rows += (index == nonZeroIDs.length-1 ? ";" : ",") //adds seperators orelse terminator
     //console.log(index, nonZeroIDs.length)
-  
-
-
   });
   console.log(rows);
 
@@ -82,5 +79,9 @@ router.get('/return', function(req, res, next) {
   });
 });
 
+router.post('/logout', function(req, res, next) {
+  console.log('/logout route hit');
+  res.redirect('/');
+});
 
 module.exports = router;

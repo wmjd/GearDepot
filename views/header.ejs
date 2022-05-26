@@ -24,6 +24,11 @@
     <% if(title == "Return"){ %> 
       <a class="currentLink" href="/return">Return</a> 
     <% } else { %>
-      <a href="/return">Return</a> 
+      <a href="/return">Return</a> |
     <% } %>
+    
+    <form enctype="application/x-www-form-urlencoded" method="post" action="/logout" style="display:inline">
+      <input type="submit" value="Logout"
+        style="background:none;padding:0;border:none;color:#00B7FF;text-decoration:underline;cursor:pointer;font: 14px Lucida Grande, Helvetica, Arial, sans-serif;">
+    </form>
   </nav>
