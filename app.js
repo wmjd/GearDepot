@@ -4,10 +4,45 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+const mongooseConnection = require('./lib/mongooseConn');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+require('dotenv').config();
+const passport = require('passport');
+
+const sessionStore = new MongoStore({mongooseConnection: mongooseConnection, collection: 'sessions'});
+
+var app = express();
+
+app.use(session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: true,
+  store: sessionStore,
+  cookie: {
+      maxAge: 1000 * 60 * 60 * 24 // Equals 1 day (1 day * 24 hr/1 day * 60 min/1 hr * 60 sec/1 min * 1000 ms / 1 sec)
+  }
+}));
+
+require('./lib/passport');
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use((req,res,next) => {
+  //console.log(req.session);
+  //console.log(req.user);
+  next();
+})
+
+app.use((req,res,next) => {
+  res.locals.req = req;
+  res.locals.res = res;
+  next();
+})
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

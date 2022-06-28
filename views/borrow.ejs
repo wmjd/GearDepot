@@ -2,7 +2,7 @@
     
 <h1><%= title %></h1>
 
-<h3>All Club Gear</h3>
+<h3>Request Form </h3>
 <form enctype="application/x-www-form-urlencoded" method="post">
     <table>
             <tr>
@@ -13,6 +13,7 @@
                 <th>Color</th>
                 <th>Available</th>
                 <th>Quantity?</th>
+                <th>Destination?</th>
             </tr>
         <% allGear.forEach( (row) => { %>
             <tr>
@@ -29,9 +30,16 @@
                         name="<%= row.gear_id %>"
                         >
                 </td>    
+                <td>
+                    <input
+                        type="text"
+                        value="0"
+                        name="<%= row.gear_id %>"
+                        >
+                </td>    
             </tr><% }); %>
     </table>
-    <input type="submit" >
+    <input type="submit" value="Submit Request" >
 </form>
 
 

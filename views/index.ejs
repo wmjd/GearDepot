@@ -38,9 +38,14 @@
             <td><%= row.user_id %></td>
             <td><%= row.gear_id %></td>
             <td><%= row.quantity %></td>
-            <td><%= row.date_out %></td>
+            <% if(row.date_out){ %>
+                <td><%= `${row.date_out.getMonth()+1}-${row.date_out.getDate()}-${row.date_out.getFullYear()}` %></td>
+            <% } else{ %>
+                <td>NULL</td>
+            <% } %>
             <td><%= row.destination %></td>
         </tr><% }); %>
 </table>
+
 
 <%- include('footer.ejs') -%>
