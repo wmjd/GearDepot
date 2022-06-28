@@ -18,7 +18,7 @@ router.get('/', isAuth, function(req, res, next) {
       //query for ticket table
       mclient.query("SELECT * FROM tickets WHERE date_in IS NULL AND date_out IS NOT NULL ORDER BY date_out", (err, ticketResult, fields) => {
         if (err) throw err;
-        console.log(ticketResult);
+        //console.log(ticketResult);
         res.render('index',
           { title: 'Home',
             allGear: gearResult,
@@ -53,15 +53,6 @@ router.post('/borrow', isAuth, function(req, res, next) {
   if(nonZeroIDs.length === 0)
     {res.redirect('/borrow')}
   else {
-    /*
-    const d = new Date();
-    const year = d.getFullYear();
-    const month = d.getMonth();
-    const day = d.getDate();
-    const date_out = `'${year}-${month+1}-${day}'`
-    console.log(date_out) //${date_out} pasted here swapped for NULL
-    */
-
     nonZeroIDs.forEach( (gear_id, index) => {
 
       const quantity = req.body[gear_id][0]
@@ -90,13 +81,34 @@ router.post('/borrow', isAuth, function(req, res, next) {
 router.get('/return', isAuth, function(req, res, next) {
   sql.getConnection(function(err, mclient) {
     //query for ticket table
-    mclient.query("SELECT * FROM tickets WHERE date_in IS NULL ORDER BY date_out", (err, ticketResult, fields) => {
+    //console.log("loggign req.user again", req.user)
+    mclient.query(`SELECT * FROM tickets WHERE date_out IS NOT NULL AND return_req=False AND user_id="${req.user.username}"`, (err, tixOut, fields) => {
       if (err) throw err;
+      mclient.query(`SELECT * FROM tickets WHERE date_out IS NOT NULL AND return_req=True AND user_id="${req.user.username}"`, (err, tixPending, fields) => {
+        if (err) throw err;
       res.render('return',
         { title: 'Return',
-          tickets: ticketResult });
-    });
-    
+          tickets: tixOut,
+          pending: tixPending});
+      });
+    })
+  });
+});
+
+router.post('/return-request', isAuth, function(req, res, next) {
+  console.log(req.body);
+  const tix = Object.keys(req.body);
+  let formattedIDs = "(";
+  tix.forEach((ticket_id, index) => {
+    formattedIDs += `'${ticket_id}'`;
+    formattedIDs += (index == tix.length-1 ? ")" : ",");
+  });
+  const queryString = `UPDATE tickets SET return_req=True WHERE ticket_id IN ${formattedIDs}`;
+  sql.getConnection(function(err, mclient) {
+    mclient.query(queryString, (err, ticketResult, fields) => {
+      if (err) throw err;
+      res.redirect('/return');
+    });    
   });
 });
 
@@ -109,14 +121,34 @@ router.get('/admin', isAdmin, function(req, res, next) {
       //checkoutReqs is an array of tickets which is JS object 
       if (err) throw err;
       //console.log(checkoutReqs);
-      res.render('admin',{ title: "Admin", checkin: {}, checkout: checkoutReqs});
-    })
+      mclient.query("SELECT * FROM tickets WHERE date_in IS NULL AND return_req=True", (err, checkinReqs, fields) => {
+        if (err) throw err;
+        res.render('admin',{ title: "Admin", checkin: checkinReqs, checkout: checkoutReqs});
+      });
+    })     
   })
 });
 
 router.post('/admin-checkin', isAdmin, (req, res, next) => {
-  //
-  res.redirect('/admin');
+  const tickets = Object.keys(req.body);
+  let formattedIDs = "(";
+  tickets.forEach( (ticket_id, index) => {
+    formattedIDs += `'${ticket_id}'`;
+    formattedIDs += (index == tickets.length-1 ? ")" : ",");
+  });
+  console.log(formattedIDs);
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const day = d.getDate();
+  const date_in = `'${year}-${month+1}-${day}'`;
+  const queryString = `UPDATE tickets SET date_in=${date_in} WHERE ticket_id IN ${formattedIDs}`;
+  sql.getConnection(function(err, mclient) {
+    mclient.query(queryString, (err, ticketResult, fields) => {
+      if (err) throw err;
+      res.redirect('/admin');
+    });    
+  });
 });
 
 router.post('/admin-checkout', isAdmin, (req, res, next) => {

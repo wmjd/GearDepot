@@ -4,23 +4,32 @@
 
 
 <h3>Checkin Request</h3>
-<table>
-    <tr>
-        <th>User</th>
-        <th>Gear ID</th>
-        <th>Quantity</th>
-        <th>Date</th>
-        <th>Destination</th>
-    </tr>
-    <% if(checkin.forEach) { checkin.forEach( (row) => { %>
+<form enctype="application/x-www-form-urlencoded" method="post" action="/admin-checkin">
+    <table>
         <tr>
-            <td><%= row.user_id %></td>
-            <td><%= row.gear_id %></td>
-            <td><%= row.quantity %></td>
-            <td><%= `${row.date_out.getMonth()+1}-${row.date_out.getDate()}-${row.date_out.getFullYear()}` %></td>
-            <td><%= row.destination %></td>
-        </tr><% });} %>
-</table>
+            <th>User</th>
+            <th>Gear ID</th>
+            <th>Quantity</th>
+            <th>Date</th>
+            <th>Destination</th>
+        </tr>
+        <% if(checkin.forEach) { checkin.forEach( (row) => { %>
+            <tr>
+                <td><%= row.user_id %></td>
+                <td><%= row.gear_id %></td>
+                <td><%= row.quantity %></td>
+                <td><%= `${row.date_out.getMonth()+1}-${row.date_out.getDate()}-${row.date_out.getFullYear()}` %></td>
+                <td><%= row.destination %></td>
+                <td>
+                    <input
+                        type="checkbox"
+                        name="<%= row.ticket_id %>"
+                    >
+                </td>
+            </tr><% });} %>
+    </table>
+    <input type="submit" value="Approve Checkin">
+</form>
 
 <h3>Checkout Request</h3>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/admin-checkout">
@@ -30,6 +39,7 @@
             <th>Gear ID</th>
             <th>Quantity</th>
             <th>Destination</th>
+            <th>Select</th>
         </tr>
         <% if(checkout.forEach){ checkout.forEach( (row) => { %>
             <tr>
