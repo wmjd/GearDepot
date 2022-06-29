@@ -1,8 +1,8 @@
 <%- include('header.ejs') -%>
     
 <h1><%= title %></h1>
-
-<h3>Gear I am currently borrowing</h3>
+<% if(tickets.length){ %>
+<h3>Gear In Use</h3>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/return-request">
     <table>
         <tr>
@@ -32,8 +32,44 @@
                 </td>
             </tr><% }); %>
     </table>
-    <input type="submit" value="Submit Return Request">
+    <button type="submit">Submit Return Request</button>
 </form>
+<% } %>
+
+<% if(pending.length){ %>
+<h3>Pending Return Requests</h3>
+<form enctype="application/x-www-form-urlencoded" method="post" action="/cancel-return-request">
+    <table>
+        <tr>
+            <th>User</th>
+            <th>Gear ID</th>
+            <th>Quantity</th>
+            <th>Date</th>
+            <th>Destination</th>
+            <th>Select</th>
+        </tr>
+        <% pending.forEach( (row) => { %>
+            <tr>
+                <td><%= row.user_id %></td>
+                <td><%= row.gear_id %></td>
+                <td><%= row.quantity %></td>
+                <% if(row.date_out){ %>
+                    <td><%= `${row.date_out.getMonth()+1}-${row.date_out.getDate()}-${row.date_out.getFullYear()}` %></td>
+                <% } else{ %>
+                    <td>NULL</td>
+                <% } %>
+                <td><%= row.destination %></td>
+                <td>
+                    <input
+                        type="checkbox"
+                        name="<%= row.ticket_id %>"
+                    >
+                </td>
+            </tr><% }); %>
+    </table>
+    <button type="submit">Cancel Return Request</button>
+</form>
+<% } %>
 
 
 

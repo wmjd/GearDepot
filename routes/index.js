@@ -35,9 +35,13 @@ router.get('/borrow', isAuth, function(req, res, next) {
     //query for club gear table
     mclient.query("SELECT * FROM gear", (err, gearResult, fields) => {
       if (err) throw err;
-      res.render('borrow',
-      { title: 'Borrow',
-        allGear: gearResult});
+      mclient.query("SELECT * FROM tickets WHERE date_out IS NULL", (err, checkoutReqs, fields) => {
+        if (err) throw err;
+        res.render('borrow',
+        { title: 'Borrow',
+          allGear: gearResult,
+          pending: checkoutReqs});
+      })
     });   
   });
 });
@@ -68,13 +72,43 @@ router.post('/borrow', isAuth, function(req, res, next) {
       //create new tickets
       mclient.query(`INSERT INTO tickets VALUES ${rows}`, (err, ticketResult, fields) => {
         if (err) throw err;
-        res.redirect('/');
+        res.redirect('/borrow');
       });
-      
     });
-  
   }
-  
+});
+
+router.post('/cancel-borrow-request', isAuth, function(req, res, next) {
+  console.log("logging cancel borrow req body", req.body);
+  const tix = Object.keys(req.body);
+  let formattedIDs = "(";
+  tix.forEach((ticket_id, index) => {
+    formattedIDs += `'${ticket_id}'`;
+    formattedIDs += (index == tix.length-1 ? ")" : ",");
+  });
+  const queryString = `DELETE FROM tickets WHERE ticket_id IN ${formattedIDs}`;
+  sql.getConnection(function(err, mclient) {
+    mclient.query(queryString, (err, ticketResult, fields) => {
+      if (err) throw err;
+      res.redirect('/borrow');
+    });    
+  });
+});
+router.post('/admin-cancel-borrow-request', isAuth, function(req, res, next) {
+  console.log("logging cancel borrow req body", req.body);
+  const tix = Object.keys(req.body);
+  let formattedIDs = "(";
+  tix.forEach((ticket_id, index) => {
+    formattedIDs += `'${ticket_id}'`;
+    formattedIDs += (index == tix.length-1 ? ")" : ",");
+  });
+  const queryString = `DELETE FROM tickets WHERE ticket_id IN ${formattedIDs}`;
+  sql.getConnection(function(err, mclient) {
+    mclient.query(queryString, (err, ticketResult, fields) => {
+      if (err) throw err;
+      res.redirect('/admin');
+    });    
+  });
 });
 
 /* GET return page. */
@@ -84,7 +118,7 @@ router.get('/return', isAuth, function(req, res, next) {
     //console.log("loggign req.user again", req.user)
     mclient.query(`SELECT * FROM tickets WHERE date_out IS NOT NULL AND return_req=False AND user_id="${req.user.username}"`, (err, tixOut, fields) => {
       if (err) throw err;
-      mclient.query(`SELECT * FROM tickets WHERE date_out IS NOT NULL AND return_req=True AND user_id="${req.user.username}"`, (err, tixPending, fields) => {
+      mclient.query(`SELECT * FROM tickets WHERE date_in IS NULL AND return_req=True AND user_id="${req.user.username}"`, (err, tixPending, fields) => {
         if (err) throw err;
       res.render('return',
         { title: 'Return',
@@ -108,6 +142,38 @@ router.post('/return-request', isAuth, function(req, res, next) {
     mclient.query(queryString, (err, ticketResult, fields) => {
       if (err) throw err;
       res.redirect('/return');
+    });    
+  });
+});
+router.post('/cancel-return-request', isAuth, function(req, res, next) {
+  console.log(req.body);
+  const tix = Object.keys(req.body);
+  let formattedIDs = "(";
+  tix.forEach((ticket_id, index) => {
+    formattedIDs += `'${ticket_id}'`;
+    formattedIDs += (index == tix.length-1 ? ")" : ",");
+  });
+  const queryString = `UPDATE tickets SET return_req=False WHERE ticket_id IN ${formattedIDs}`;
+  sql.getConnection(function(err, mclient) {
+    mclient.query(queryString, (err, ticketResult, fields) => {
+      if (err) throw err;
+      res.redirect('/return');
+    });    
+  });
+});
+router.post('/admin-cancel-return-request', isAuth, function(req, res, next) {
+  console.log(req.body);
+  const tix = Object.keys(req.body);
+  let formattedIDs = "(";
+  tix.forEach((ticket_id, index) => {
+    formattedIDs += `'${ticket_id}'`;
+    formattedIDs += (index == tix.length-1 ? ")" : ",");
+  });
+  const queryString = `UPDATE tickets SET return_req=False WHERE ticket_id IN ${formattedIDs}`;
+  sql.getConnection(function(err, mclient) {
+    mclient.query(queryString, (err, ticketResult, fields) => {
+      if (err) throw err;
+      res.redirect('/admin');
     });    
   });
 });

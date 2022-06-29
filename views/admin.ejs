@@ -2,8 +2,8 @@
 
 <h1><%= title %></h1>
 
-
-<h3>Checkin Request</h3>
+<% if(checkin.length){ %>
+<h3>Return Request</h3>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/admin-checkin">
     <table>
         <tr>
@@ -28,10 +28,13 @@
                 </td>
             </tr><% });} %>
     </table>
-    <input type="submit" value="Approve Checkin">
+    <input type="submit" value="Approve Return">
+    <button type="submit" formaction="admin-cancel-return-request">Cancel Return</button>
 </form>
+<% } %>
 
-<h3>Checkout Request</h3>
+<% if(checkout.length){ %>
+<h3>Borrow Request</h3>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/admin-checkout">
     <table>
         <tr>
@@ -55,9 +58,10 @@
                 </td>
             </tr><% });} %>
     </table>
-    <input type="submit" value="Approve Checkout">
+    <input type="submit" value="Approve Borrow">
+    <button type="submit" formaction="admin-cancel-borrow-request">Cancel Return</button>
 </form>
-
+<% } %>
 
 
 <%- include('footer.ejs') -%>
