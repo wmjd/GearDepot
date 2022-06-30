@@ -9,31 +9,35 @@
 <body>
 
   <nav>
+    <ul>
     <% if(title == "Home"){ %> 
-      <a class="currentLink" href="/">Home</a> |
+    <li> <a class="currentLink" href="/">Home</a> </li>
     <% } else { %>
-      <a href="/">Home</a> |
+    <li> <a href="/">Home</a> </li>
     <% } %>
     
     <% if(title == "Borrow"){ %> 
-      <a class="currentLink" href="/borrow">Borrow</a> |
+    <li> <a class="currentLink" href="/borrow">Borrow</a> </li>
     <% } else { %>
-      <a href="/borrow">Borrow</a> |
+    <li> <a href="/borrow">Borrow</a> </li>
     <% } %>
 
     <% if(title == "Return"){ %> 
-      <a class="currentLink" href="/return">Return</a> |
+    <li> <a class="currentLink" href="/return">Return</a> </li>
     <% } else { %>
-      <a href="/return">Return</a> |
+    <li> <a href="/return">Return</a> </li>
     <% } %>
 
     <% if(req.user.admin){ %> 
       <% if(title == "Admin"){ %> 
-      <a class="currentLink" href="/admin">Admin</a> |
+      <li> <a class="currentLink" href="/admin">Admin</a> </li>
       <% } else { %>
-      <a href="/admin">Admin</a> |
+      <li> <a href="/admin">Admin</a> </li>
       <% } %>
     <% } %>
     
-    <a href="/logout">Logout</a>
+   <li> <a href="/logout">Logout</a> </li>
+
+      </ul>
+  <hr>
   </nav>

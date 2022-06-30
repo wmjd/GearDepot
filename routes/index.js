@@ -5,8 +5,8 @@ const passport = require('passport');
 const genPassword = require('../lib/passwordUtils').genPassword;
 const connection = require('../lib/mongooseConn');
 const User = connection.models.User;
-const isAuth = require('../lib/authMiddleware').isAuth;
-const isAdmin = require('../lib/authMiddleware').isAdmin;
+const isAuth = require('../lib/auth').isAuth;
+const isAdmin = require('../lib/auth').isAdmin;
 
 /* GET home page. */
 router.get('/', isAuth, function(req, res, next) {

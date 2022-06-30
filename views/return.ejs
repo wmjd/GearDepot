@@ -1,16 +1,15 @@
 <%- include('header.ejs') -%>
-    
-<h1><%= title %></h1>
+
 <% if(tickets.length){ %>
-<h3>Gear In Use</h3>
+<h2>Gear In Use</h2>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/return-request">
     <table>
         <tr>
             <th>User</th>
             <th>Gear ID</th>
             <th>Quantity</th>
-            <th>Date</th>
-            <th>Destination</th>
+            <th>Date Out</th>
+            <th>Location</th>
             <th>Select</th>
         </tr>
         <% tickets.forEach( (row) => { %>
@@ -32,20 +31,24 @@
                 </td>
             </tr><% }); %>
     </table>
+    <div class="buttonContainer">
     <button type="submit">Submit Return Request</button>
+    </div>
 </form>
+<hr>
 <% } %>
 
 <% if(pending.length){ %>
-<h3>Pending Return Requests</h3>
+<br>
+<h2>Pending Return Requests</h2>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/cancel-return-request">
     <table>
         <tr>
             <th>User</th>
             <th>Gear ID</th>
             <th>Quantity</th>
-            <th>Date</th>
-            <th>Destination</th>
+            <th>Date Out</th>
+            <th>Location</th>
             <th>Select</th>
         </tr>
         <% pending.forEach( (row) => { %>
@@ -67,7 +70,9 @@
                 </td>
             </tr><% }); %>
     </table>
+    <div class="buttonContainer">
     <button type="submit">Cancel Return Request</button>
+    </div>
 </form>
 <% } %>
 

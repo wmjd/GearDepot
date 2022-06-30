@@ -1,6 +1,5 @@
 <%- include('header.ejs') -%>
 
-<h1><%= title %></h1>
 
 <h3>Club Gear List</h3>
 <table>
@@ -25,14 +24,14 @@
 <br>
 
 <% if(tickets.length){ %>
-<h3>Checked-out Gear</h3>
+<h3>Gear In Use</h3>
 <table>
     <tr>
         <th>User</th>
         <th>Gear ID</th>
         <th>Quantity</th>
-        <th>Date</th>
-        <th>Destination</th>
+        <th>Date Out</th>
+        <th>Location</th>
     </tr>
     <% tickets.forEach( (row) => { %>
         <tr>

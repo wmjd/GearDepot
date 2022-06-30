@@ -1,8 +1,7 @@
 <%- include('header.ejs') -%>
     
-<h1><%= title %></h1>
 
-<h3>Request Form </h3>
+<h3>Borrow Request Form </h3>
 <form enctype="application/x-www-form-urlencoded" method="post">
     <table>
             <tr>
@@ -13,7 +12,7 @@
                 <th>Color</th>
                 <th>Available</th>
                 <th>Quantity?</th>
-                <th>Destination?</th>
+                <th>Location?</th>
             </tr>
         <% allGear.forEach( (row) => { %>
             <tr>
@@ -39,7 +38,7 @@
                 </td>    
             </tr><% }); %>
     </table>
-    <input type="submit" value="Submit Request" >
+    <input type="submit" value="Submit Borow Request" >
 </form>
 
 <% if(pending && pending.length){ %>
@@ -50,7 +49,7 @@
             <th>User</th>
             <th>Gear ID</th>
             <th>Quantity</th>
-            <th>Destination</th>
+            <th>Location</th>
             <th>Select</th>
         </tr>
         <% if(pending.forEach){ pending.forEach( (row) => { %>
@@ -67,7 +66,7 @@
                 </td>
             </tr><% });} %>
     </table>
-    <input type="submit" value="Cancel Request">
+    <input type="submit" value="Cancel Borrow Request">
 </form>
 <% } %>
 

@@ -1,17 +1,18 @@
 <%- include('header.ejs') -%>
 
-<h1><%= title %></h1>
 
 <% if(checkin.length){ %>
-<h3>Return Request</h3>
+
+<h2>Return Request</h3>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/admin-checkin">
     <table>
         <tr>
             <th>User</th>
             <th>Gear ID</th>
             <th>Quantity</th>
-            <th>Date</th>
-            <th>Destination</th>
+            <th>Date Out</th>
+            <th>Location</th>
+            <th>Select</th>
         </tr>
         <% if(checkin.forEach) { checkin.forEach( (row) => { %>
             <tr>
@@ -28,20 +29,29 @@
                 </td>
             </tr><% });} %>
     </table>
-    <input type="submit" value="Approve Return">
-    <button type="submit" formaction="admin-cancel-return-request">Cancel Return</button>
+    
+    <div class="buttonContainer">
+        <button type="submit">Approve</button>
+        <button type="submit" formaction="admin-cancel-return-request">Reject</button>
+    </div>
+    
 </form>
+
+<hr>
 <% } %>
 
+
+
 <% if(checkout.length){ %>
-<h3>Borrow Request</h3>
+<br>
+<h2>Borrow Request</h3>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/admin-checkout">
     <table>
         <tr>
             <th>User</th>
             <th>Gear ID</th>
             <th>Quantity</th>
-            <th>Destination</th>
+            <th>Location</th>
             <th>Select</th>
         </tr>
         <% if(checkout.forEach){ checkout.forEach( (row) => { %>
@@ -58,8 +68,10 @@
                 </td>
             </tr><% });} %>
     </table>
-    <input type="submit" value="Approve Borrow">
-    <button type="submit" formaction="admin-cancel-borrow-request">Cancel Return</button>
+    <div class="buttonContainer">
+    <button type="submit">Approve</button>
+    <button type="submit" formaction="admin-cancel-borrow-request">Reject</button>
+    </div>
 </form>
 <% } %>
 
