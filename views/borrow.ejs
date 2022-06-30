@@ -38,10 +38,13 @@
                 </td>    
             </tr><% }); %>
     </table>
-    <input type="submit" value="Submit Borow Request" >
+    <div class="buttonContainer">
+        <button type="submit">Submit Borow Request</button>
+    </div>
 </form>
 
 <% if(pending && pending.length){ %>
+<hr>
 <h3>Pending Borrow Requests</h3>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/cancel-borrow-request">
     <table>

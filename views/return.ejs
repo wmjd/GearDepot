@@ -1,6 +1,7 @@
 <%- include('header.ejs') -%>
 
 <% if(tickets.length){ %>
+<br>
 <h2>Gear In Use</h2>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/return-request">
     <table>
@@ -35,11 +36,11 @@
     <button type="submit">Submit Return Request</button>
     </div>
 </form>
-<hr>
+
 <% } %>
 
 <% if(pending.length){ %>
-<br>
+<hr><br>
 <h2>Pending Return Requests</h2>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/cancel-return-request">
     <table>

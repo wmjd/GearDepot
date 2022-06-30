@@ -79,36 +79,44 @@ router.post('/borrow', isAuth, function(req, res, next) {
 });
 
 router.post('/cancel-borrow-request', isAuth, function(req, res, next) {
-  console.log("logging cancel borrow req body", req.body);
-  const tix = Object.keys(req.body);
-  let formattedIDs = "(";
-  tix.forEach((ticket_id, index) => {
-    formattedIDs += `'${ticket_id}'`;
-    formattedIDs += (index == tix.length-1 ? ")" : ",");
-  });
-  const queryString = `DELETE FROM tickets WHERE ticket_id IN ${formattedIDs}`;
-  sql.getConnection(function(err, mclient) {
-    mclient.query(queryString, (err, ticketResult, fields) => {
-      if (err) throw err;
-      res.redirect('/borrow');
-    });    
-  });
-});
+  if(Object.keys(req.body).length == 0){
+    res.redirect('/borrow');
+  } else {  
+    const tix = Object.keys(req.body);
+    let formattedIDs = "(";
+    tix.forEach((ticket_id, index) => {
+      formattedIDs += `'${ticket_id}'`;
+      formattedIDs += (index == tix.length-1 ? ")" : ",");
+    });
+    const queryString = `DELETE FROM tickets WHERE ticket_id IN ${formattedIDs}`;
+    sql.getConnection(function(err, mclient) {
+      mclient.query(queryString, (err, ticketResult, fields) => {
+        if (err) throw err;
+        res.redirect('/borrow');
+      });    
+    });
+  }
+})
+
+
 router.post('/admin-cancel-borrow-request', isAuth, function(req, res, next) {
-  console.log("logging cancel borrow req body", req.body);
-  const tix = Object.keys(req.body);
-  let formattedIDs = "(";
-  tix.forEach((ticket_id, index) => {
-    formattedIDs += `'${ticket_id}'`;
-    formattedIDs += (index == tix.length-1 ? ")" : ",");
-  });
-  const queryString = `DELETE FROM tickets WHERE ticket_id IN ${formattedIDs}`;
-  sql.getConnection(function(err, mclient) {
-    mclient.query(queryString, (err, ticketResult, fields) => {
-      if (err) throw err;
-      res.redirect('/admin');
-    });    
-  });
+  if(Object.keys(req.body).length == 0){
+    res.redirect('/admin');
+  } else {  
+    const tix = Object.keys(req.body);
+    let formattedIDs = "(";
+    tix.forEach((ticket_id, index) => {
+      formattedIDs += `'${ticket_id}'`;
+      formattedIDs += (index == tix.length-1 ? ")" : ",");
+    });
+    const queryString = `DELETE FROM tickets WHERE ticket_id IN ${formattedIDs}`;
+    sql.getConnection(function(err, mclient) {
+      mclient.query(queryString, (err, ticketResult, fields) => {
+        if (err) throw err;
+        res.redirect('/admin');
+      });    
+    });
+  }
 });
 
 /* GET return page. */
@@ -130,52 +138,62 @@ router.get('/return', isAuth, function(req, res, next) {
 });
 
 router.post('/return-request', isAuth, function(req, res, next) {
-  console.log(req.body);
-  const tix = Object.keys(req.body);
-  let formattedIDs = "(";
-  tix.forEach((ticket_id, index) => {
-    formattedIDs += `'${ticket_id}'`;
-    formattedIDs += (index == tix.length-1 ? ")" : ",");
-  });
-  const queryString = `UPDATE tickets SET return_req=True WHERE ticket_id IN ${formattedIDs}`;
-  sql.getConnection(function(err, mclient) {
-    mclient.query(queryString, (err, ticketResult, fields) => {
-      if (err) throw err;
-      res.redirect('/return');
-    });    
-  });
+  if(Object.keys(req.body).length == 0){
+    res.redirect('/return');
+  } else {  
+    console.log(req.body);
+    const tix = Object.keys(req.body);
+    let formattedIDs = "(";
+    tix.forEach((ticket_id, index) => {
+      formattedIDs += `'${ticket_id}'`;
+      formattedIDs += (index == tix.length-1 ? ")" : ",");
+    });
+    const queryString = `UPDATE tickets SET return_req=True WHERE ticket_id IN ${formattedIDs}`;
+    sql.getConnection(function(err, mclient) {
+      mclient.query(queryString, (err, ticketResult, fields) => {
+        if (err) throw err;
+        res.redirect('/return');
+      });    
+    });
+  }
 });
 router.post('/cancel-return-request', isAuth, function(req, res, next) {
-  console.log(req.body);
-  const tix = Object.keys(req.body);
-  let formattedIDs = "(";
-  tix.forEach((ticket_id, index) => {
-    formattedIDs += `'${ticket_id}'`;
-    formattedIDs += (index == tix.length-1 ? ")" : ",");
-  });
-  const queryString = `UPDATE tickets SET return_req=False WHERE ticket_id IN ${formattedIDs}`;
-  sql.getConnection(function(err, mclient) {
-    mclient.query(queryString, (err, ticketResult, fields) => {
-      if (err) throw err;
-      res.redirect('/return');
-    });    
-  });
+  if(Object.keys(req.body).length == 0){
+    res.redirect('/return');
+  } else {  
+    const tix = Object.keys(req.body);
+    let formattedIDs = "(";
+    tix.forEach((ticket_id, index) => {
+      formattedIDs += `'${ticket_id}'`;
+      formattedIDs += (index == tix.length-1 ? ")" : ",");
+    });
+    const queryString = `UPDATE tickets SET return_req=False WHERE ticket_id IN ${formattedIDs}`;
+    sql.getConnection(function(err, mclient) {
+      mclient.query(queryString, (err, ticketResult, fields) => {
+        if (err) throw err;
+        res.redirect('/return');
+      });    
+    });
+  }
 });
 router.post('/admin-cancel-return-request', isAuth, function(req, res, next) {
-  console.log(req.body);
-  const tix = Object.keys(req.body);
-  let formattedIDs = "(";
-  tix.forEach((ticket_id, index) => {
-    formattedIDs += `'${ticket_id}'`;
-    formattedIDs += (index == tix.length-1 ? ")" : ",");
-  });
-  const queryString = `UPDATE tickets SET return_req=False WHERE ticket_id IN ${formattedIDs}`;
-  sql.getConnection(function(err, mclient) {
-    mclient.query(queryString, (err, ticketResult, fields) => {
-      if (err) throw err;
-      res.redirect('/admin');
-    });    
-  });
+  if(Object.keys(req.body).length == 0){
+    res.redirect('/admin');
+  } else {  
+    const tix = Object.keys(req.body);
+    let formattedIDs = "(";
+    tix.forEach((ticket_id, index) => {
+      formattedIDs += `'${ticket_id}'`;
+      formattedIDs += (index == tix.length-1 ? ")" : ",");
+    });
+    const queryString = `UPDATE tickets SET return_req=False WHERE ticket_id IN ${formattedIDs}`;
+    sql.getConnection(function(err, mclient) {
+      mclient.query(queryString, (err, ticketResult, fields) => {
+        if (err) throw err;
+        res.redirect('/admin');
+      });    
+    });
+  }
 });
 
 // admin routes 
@@ -196,49 +214,55 @@ router.get('/admin', isAdmin, function(req, res, next) {
 });
 
 router.post('/admin-checkin', isAdmin, (req, res, next) => {
-  const tickets = Object.keys(req.body);
-  let formattedIDs = "(";
-  tickets.forEach( (ticket_id, index) => {
-    formattedIDs += `'${ticket_id}'`;
-    formattedIDs += (index == tickets.length-1 ? ")" : ",");
-  });
-  console.log(formattedIDs);
-  const d = new Date();
-  const year = d.getFullYear();
-  const month = d.getMonth();
-  const day = d.getDate();
-  const date_in = `'${year}-${month+1}-${day}'`;
-  const queryString = `UPDATE tickets SET date_in=${date_in} WHERE ticket_id IN ${formattedIDs}`;
-  sql.getConnection(function(err, mclient) {
-    mclient.query(queryString, (err, ticketResult, fields) => {
-      if (err) throw err;
-      res.redirect('/admin');
-    });    
-  });
+  if(Object.keys(req.body).length == 0){
+    res.redirect('/admin');
+  } else {  
+    const tickets = Object.keys(req.body);
+    let formattedIDs = "(";
+    tickets.forEach( (ticket_id, index) => {
+      formattedIDs += `'${ticket_id}'`;
+      formattedIDs += (index == tickets.length-1 ? ")" : ",");
+    });
+    console.log(formattedIDs);
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = d.getMonth();
+    const day = d.getDate();
+    const date_in = `'${year}-${month+1}-${day}'`;
+    const queryString = `UPDATE tickets SET date_in=${date_in} WHERE ticket_id IN ${formattedIDs}`;
+    sql.getConnection(function(err, mclient) {
+      mclient.query(queryString, (err, ticketResult, fields) => {
+        if (err) throw err;
+        res.redirect('/admin');
+      });    
+    });
+  }
 });
 
 router.post('/admin-checkout', isAdmin, (req, res, next) => {
-  console.log("/admin-checkout hit; logging req.body:",req.body)
-  
-  const tickets = Object.keys(req.body);
-  let formattedIDs = "(";
-  tickets.forEach( (ticket_id, index) => {
-    formattedIDs += `'${ticket_id}'`;
-    formattedIDs += (index == tickets.length-1 ? ")" : ",");
-  });
-  console.log(formattedIDs);
-  const d = new Date();
-  const year = d.getFullYear();
-  const month = d.getMonth();
-  const day = d.getDate();
-  const date_out = `'${year}-${month+1}-${day}'`;
-  const queryString = `UPDATE tickets SET date_out=${date_out} WHERE ticket_id IN ${formattedIDs}`;
-  sql.getConnection(function(err, mclient) {
-    mclient.query(queryString, (err, ticketResult, fields) => {
-      if (err) throw err;
-      res.redirect('/admin');
-    });    
-  });
+  if(Object.keys(req.body).length == 0){
+    res.redirect('/admin');
+  } else {  
+    const tickets = Object.keys(req.body);
+    let formattedIDs = "(";
+    tickets.forEach( (ticket_id, index) => {
+      formattedIDs += `'${ticket_id}'`;
+      formattedIDs += (index == tickets.length-1 ? ")" : ",");
+    });
+    console.log(formattedIDs);
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = d.getMonth();
+    const day = d.getDate();
+    const date_out = `'${year}-${month+1}-${day}'`;
+    const queryString = `UPDATE tickets SET date_out=${date_out} WHERE ticket_id IN ${formattedIDs}`;
+    sql.getConnection(function(err, mclient) {
+      mclient.query(queryString, (err, ticketResult, fields) => {
+        if (err) throw err;
+        res.redirect('/admin');
+      });    
+    });
+  }
 });
 
 
