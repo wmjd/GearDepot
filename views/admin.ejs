@@ -24,7 +24,7 @@
                 <td><%= row.destination %></td>
                 <td>
                     <input
-                        type="checkbox"
+                        type="radio"
                         name="<%= row.ticket_id %>"
                     >
                 </td>
@@ -63,8 +63,9 @@
                 <td><%= row.destination %></td>
                 <td>
                     <input
-                        type="checkbox"
+                        type="radio"
                         name="<%= row.ticket_id %>"
+                        value="foobar"
                     >
                 </td>
             </tr><% });} %>
