@@ -217,23 +217,29 @@ router.post('/admin-checkin', isAdmin, (req, res, next) => {
   if(Object.keys(req.body).length == 0){
     res.redirect('/admin');
   } else {  
-    const tickets = Object.keys(req.body);
-    let formattedIDs = "(";
-    tickets.forEach( (ticket_id, index) => {
-      formattedIDs += `'${ticket_id}'`;
-      formattedIDs += (index == tickets.length-1 ? ")" : ",");
-    });
-    console.log(formattedIDs);
+    const ticketId = req.body["ticket_id"];
+    console.log("tickedId=", ticketId);
     const d = new Date();
     const year = d.getFullYear();
     const month = d.getMonth();
     const day = d.getDate();
     const date_in = `'${year}-${month+1}-${day}'`;
-    const queryString = `UPDATE tickets SET date_in=${date_in} WHERE ticket_id IN ${formattedIDs}`;
+    const queryString = `UPDATE tickets SET date_in=${date_in} WHERE ticket_id=${ticketId}`;
     sql.getConnection(function(err, mclient) {
       mclient.query(queryString, (err, ticketResult, fields) => {
         if (err) throw err;
-        res.redirect('/admin');
+        sql.getConnection(function(err, mcliebt) {
+          const gearId = `(SELECT gear_id FROM tickets WHERE ticket_id=${ticketId})`;
+          const newQuantity = `(SELECT
+          (SELECT quantity FROM (SELECT * FROM gear) as x WHERE gear_id=${gearId}) - 
+          (SELECT IFNULL((SELECT SUM(quantity) FROM tickets WHERE date_out IS NOT NULL AND date_in IS NULL AND gear_id=${gearId}), 0)))`;
+          const updateString = `UPDATE gear SET available=${newQuantity} WHERE gear_id=${gearId}`;
+          console.log(updateString);
+          mclient.query(updateString, (err, gearResult, fields) => {
+            if (err) throw err;
+            res.redirect('/admin');
+          })
+        });
       });    
     });
   }
@@ -244,7 +250,7 @@ router.post('/admin-checkout', isAdmin, (req, res, next) => {
   if(Object.keys(req.body).length == 0){
     res.redirect('/admin');
   } else {  
-    const ticketId = Object.keys(req.body)[0]; //array contains singleton
+    const ticketId = req.body["ticket_id"]; //the key, ticked_id html, is the input attr for the group of radio buttons
     //console.log(ticketId)
     const d = new Date();
     const year = d.getFullYear();
@@ -259,7 +265,7 @@ router.post('/admin-checkout', isAdmin, (req, res, next) => {
             const gearId = `(SELECT gear_id FROM tickets WHERE ticket_id=${ticketId})`;
             const newQuantity = `(SELECT
             (SELECT quantity FROM (SELECT * FROM gear) as x WHERE gear_id=${gearId}) - 
-            (SELECT SUM(quantity) FROM tickets WHERE date_out IS NOT NULL AND return_req=False AND gear_id=${gearId}))`;
+            (SELECT SUM(quantity) FROM tickets WHERE date_out IS NOT NULL AND date_in IS NULL AND gear_id=${gearId}))`;
             const updateString = `UPDATE gear SET available=${newQuantity} WHERE gear_id=${gearId}`;
             console.log(updateString);
             mclient.query(updateString, (err, gearResult, fields) => {
