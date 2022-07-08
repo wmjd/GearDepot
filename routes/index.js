@@ -35,7 +35,7 @@ router.get('/borrow', isAuth, function(req, res, next) {
     //query for club gear table
     mclient.query("SELECT * FROM gear", (err, gearResult, fields) => {
       if (err) throw err;
-      mclient.query("SELECT * FROM tickets WHERE date_out IS NULL", (err, checkoutReqs, fields) => {
+      mclient.query(`SELECT * FROM tickets WHERE date_out IS NULL AND user_id="${req.user.username}"`, (err, checkoutReqs, fields) => {
         if (err) throw err;
         res.render('borrow',
         { title: 'Borrow',
