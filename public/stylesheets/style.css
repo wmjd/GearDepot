@@ -1,7 +1,7 @@
 body {
   padding: 0px;
   font: 14px Monospace, "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: honeydew;
+  background-color: white;
   color: darkslategrey;
 
 }
@@ -14,7 +14,7 @@ nav {
   /*border-bottom: dotted 2px darkslategray;
   border-top: dotted 2px darkslategray;*/
   text-align: center;
-  background-color: aure;
+  background-color: black;
 }
 
 li {
@@ -25,7 +25,7 @@ li {
 
 
 a {
-  color: darkslategray;
+  color: #C41230;
   text-decoration: none;
   padding: 2px 12px;
   
@@ -34,12 +34,13 @@ a {
 .currentLink {
   /* border: 3px solid darkslategrey;
   border-radius: 5px; */
-  color: mediumaquamarine;
+  color: #3bedcf;
 }
 
 h3,
 h2 {
   text-align: center;
+  color: darkslategrey
 }
 
 table {
@@ -58,22 +59,23 @@ td, th {
   padding: 8px;
 }
 tr:nth-child(even) {
-  background-color: azure;
+  background-color:;
 }
 tr:nth-child(odd) {
-  background-color: mintcream;
+  background-color: ;
 }
 tr:first-child {
-  background-color: mediumaquamarine;
+  background-color: black;
+  color: white;
 }
 
 button[type=submit]{
   font-family: Monospace;
-  background-color: honeydew;
+  background-color: white;
   border-radius: 5px;
   font-size: 20px;
-  color: darkslategrey;
-  border-color:darkslategrey;
+  color: #C41230;
+  border-color:black;
 }
 
 input[type=checkbox]{
