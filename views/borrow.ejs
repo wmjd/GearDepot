@@ -23,19 +23,22 @@
                 <td><%= row.color %></td>
                 <td><%= row.available %> / <%= row.quantity %></td>
                 <td>
-                    <input
-                        type="text"
-                        value="0"
-                        name="<%= row.gear_id %>"
-                        >
-                </td>    
+                    <select name="<%= row.gear_id %>">
+                        <% for(let i=0; i <= row.available; i++) { %>
+                            <option value="<%= i %>""> <%= i %> </option>
+                        <% } %>
+                    </select>
+                </td>
                 <td>
-                    <input
-                        type="text"
-                        value="0"
-                        name="<%= row.gear_id %>"
-                        >
-                </td>    
+                    <select name="<%= row.gear_id %>">
+                        <% let dest=["", "Barstow", "Bishop", "Big Bear", "Culp Valley", "Joshua Tree", "Red Rock Canyon", "San Diego", "Yosemite"] %>
+                        <% dest.forEach( loc => {%>
+                            <option value="<%= loc %>""> <%= loc %> </option>
+                        <% }) %>
+                    </select>
+                </td>  
+ 
+  
             </tr><% }); %>
     </table>
     <div class="buttonContainer">

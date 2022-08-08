@@ -52,7 +52,7 @@ router.post('/borrow', isAuth, function(req, res, next) {
   // body consists of object with string key-value pairs per row of table where key=gear_id, value=<array of input>
   console.log('POST /borrow req.body: ', req.body)
   let rows = ""
-  const nonZeroIDs = Object.keys(req.body).filter( id => req.body[id][0] !== "0" && req.body[id][1] !== "0")
+  const nonZeroIDs = Object.keys(req.body).filter( id => req.body[id][0] !== "0" && req.body[id][1] !== "")
   console.log(nonZeroIDs)
   console.log(nonZeroIDs.length)
   if(nonZeroIDs.length === 0)
