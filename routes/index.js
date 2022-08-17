@@ -250,34 +250,56 @@ router.post('/admin-checkout', isAdmin, (req, res, next) => {
   console.log(req.body);
   if(Object.keys(req.body).length == 0){
     res.redirect('/admin');
-  } else {  
+  } else { 
     const ticketId = req.body["ticket_id"]; //the key, ticked_id html, is the input attr for the group of radio buttons
     //console.log(ticketId)
-    const d = new Date();
-    const year = d.getFullYear();
-    const month = d.getMonth();
-    const day = d.getDate();
-    const date_out = `'${year}-${month+1}-${day}'`;
-    const queryString = `UPDATE tickets SET date_out=${date_out} WHERE ticket_id=${ticketId}`;
+
+    //get corresponding gearId to get corresonding quantity available
+    //if the quantity requested is more than the quantity available, redirect to /admin
+    //else keep going
+
     sql.getConnection(function(err, mclient) {
-      mclient.query(queryString, (err, ticketResult, fields) => {
-        if (err) throw err;
-        sql.getConnection(function(err, mcliebt) {
-            const gearId = `(SELECT gear_id FROM tickets WHERE ticket_id=${ticketId})`;
-            const newQuantity = `(SELECT
-            (SELECT quantity FROM (SELECT * FROM gear) as x WHERE gear_id=${gearId}) - 
-            (SELECT SUM(quantity) FROM tickets WHERE date_out IS NOT NULL AND date_in IS NULL AND gear_id=${gearId}))`;
-            const updateString = `UPDATE gear SET available=${newQuantity} WHERE gear_id=${gearId}`;
-            console.log(updateString);
-            mclient.query(updateString, (err, gearResult, fields) => {
-              if (err) throw err;
-              res.redirect('/admin');
+      mclient.query(`SELECT available FROM gear WHERE gear_id=(SELECT gear_id FROM tickets WHERE ticket_id=${ticketId})`,
+        (err, avail, fields) => {
+          if (err) throw err;
+          sql.getConnection(function(err, mclient){
+            mclient.query(`SELECT quantity from tickets WHERE ticket_id=${ticketId}`, (err, tickQuant, fields) => {
+              //console.log(`avail: ${avail[0]["available"]}\nquantity requested: ${tickQuant[0]["quantity"]}`)
+              if(avail[0]["available"] < tickQuant[0]["quantity"]){
+                console.log("Ignoring user nonsense...")
+                res.redirect("/admin")
+              }else{
+                const d = new Date();
+                const year = d.getFullYear();
+                const month = d.getMonth();
+                const day = d.getDate();
+                const date_out = `'${year}-${month+1}-${day}'`;
+                const queryString = `UPDATE tickets SET date_out=${date_out} WHERE ticket_id=${ticketId}`;
+                sql.getConnection(function(err, mclient) {
+                  mclient.query(queryString, (err, ticketResult, fields) => {
+                    if (err) throw err;
+                    sql.getConnection(function(err, mcliebt) {
+                      const gearId = `(SELECT gear_id FROM tickets WHERE ticket_id=${ticketId})`;
+                      const newQuantity = `(SELECT
+                      (SELECT quantity FROM (SELECT * FROM gear) as x WHERE gear_id=${gearId}) - 
+                      (SELECT SUM(quantity) FROM tickets WHERE date_out IS NOT NULL AND date_in IS NULL AND gear_id=${gearId}))`;
+                      const updateString = `UPDATE gear SET available=${newQuantity} WHERE gear_id=${gearId}`;
+                      console.log(updateString);
+                      mclient.query(updateString, (err, gearResult, fields) => {
+                        if (err) throw err;
+                        res.redirect('/admin');
+                      })
+                    })
+                  });    
+                }); 
+              }
             })
-        })
-      });    
-    });
-  } 
-});
+          })
+
+      })
+    })
+  }
+})
 
 
 // post auth routes
