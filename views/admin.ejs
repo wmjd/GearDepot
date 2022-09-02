@@ -6,35 +6,38 @@
 <br>    
 <h2>Return Request</h3>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/admin-checkin">
-    <table>
-        <tr>
-            <th>User</th>
-            <th>Gear ID</th>
-            <th>Quantity</th>
-            <th>Date Out</th>
-            <th>Location</th>
-            <th>Select</th>
-        </tr>
-        <% if(checkin.forEach) { checkin.forEach( (row) => { %>
+    <div class="scrollable">
+        <table class="table">
             <tr>
-                <td><%= row.user_id %></td>
-                <td><%= row.gear_id %></td>
-                <td><%= row.quantity %></td>
-                <td><%= `${row.date_out.getMonth()+1}-${row.date_out.getDate()}-${row.date_out.getFullYear()}` %></td>
-                <td><%= row.destination %></td>
-                <td>
-                    <input
-                        type="radio"
-                        value="<%= row.ticket_id %>"
-                        name="ticket_id"
-                    >
-                </td>
-            </tr><% });} %>
-    </table>
+                <th>User</th>
+                <th>GID</th>
+                <th>Quantity</th>
+                <th>Date Out</th>
+                <th>Location</th>
+                <th>Select</th>
+            </tr>
+            <% if(checkin.forEach) { checkin.forEach( (row) => { %>
+                <tr>
+                    <td><%= row.user_id %></td>
+                    <td><%= row.gear_id %></td>
+                    <td><%= row.quantity %></td>
+                    <td><%= `${row.date_out.getMonth()+1}-${row.date_out.getDate()}-${row.date_out.getFullYear()}` %></td>
+                    <td><%= row.destination %></td>
+                    <td>
+                        <input
+                            type="radio"
+                            value="<%= row.ticket_id %>"
+                            name="ticket_id"
+                        >
+                    </td>
+                </tr><% });} %>
+        </table>
+    </div>
+    
     
     <div class="buttonContainer">
-        <button type="submit">Approve</button>
-        <button type="submit" formaction="admin-cancel-return-request">Reject</button>
+        <button type="submit" class="btn btn-success">Approve</button>
+        <button type="submit" formaction="admin-cancel-return-request" class="btn btn-danger">Reject</button>
     </div>
     
 </form>
@@ -48,32 +51,35 @@
 <hr><br>
 <h2>Borrow Request</h3>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/admin-checkout">
-    <table>
-        <tr>
-            <th>User</th>
-            <th>Gear ID</th>
-            <th>Quantity</th>
-            <th>Location</th>
-            <th>Select</th>
-        </tr>
-        <% if(checkout.forEach){ checkout.forEach( (row) => { %>
+    <div class="scrollable">
+        <table class="table">
             <tr>
-                <td><%= row.user_id %></td>
-                <td><%= row.gear_id %></td>
-                <td><%= row.quantity %></td>
-                <td><%= row.destination %></td>
-                <td>
-                    <input
-                        type="radio"
-                        value="<%= row.ticket_id %>"
-                        name="ticket_id"
-                    >
-                </td>
-            </tr><% });} %>
-    </table>
+                <th>User</th>
+                <th>GID</th>
+                <th>Quantity</th>
+                <th>Location</th>
+                <th>Select</th>
+            </tr>
+            <% if(checkout.forEach){ checkout.forEach( (row) => { %>
+                <tr>
+                    <td><%= row.user_id %></td>
+                    <td><%= row.gear_id %></td>
+                    <td><%= row.quantity %></td>
+                    <td><%= row.destination %></td>
+                    <td>
+                        <input
+                            type="radio"
+                            value="<%= row.ticket_id %>"
+                            name="ticket_id"
+                        >
+                    </td>
+                </tr><% });} %>
+        </table>
+    </div>
+    
     <div class="buttonContainer">
-    <button type="submit">Approve</button>
-    <button type="submit" formaction="admin-cancel-borrow-request">Reject</button>
+    <button type="submit" class="btn btn-success">Approve</button>
+    <button type="submit" formaction="admin-cancel-borrow-request" class="btn btn-danger">Reject</button>
     </div>
 </form>
 <% } %>

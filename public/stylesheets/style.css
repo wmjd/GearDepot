@@ -1,3 +1,18 @@
+.scrollable {
+  overflow: scroll
+}
+
+.buttonContainer {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+body {
+  font: Monospace;
+}
+/*
+
 body {
   padding: 0px;
   font: 14px Monospace, "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -11,8 +26,6 @@ nav {
   font-weight: 700;
   font-size: 30px;
   letter-spacing: 0.2em;
-  /*border-bottom: dotted 2px darkslategray;
-  border-top: dotted 2px darkslategray;*/
   text-align: center;
   background-color: black;
 }
@@ -32,8 +45,6 @@ a {
 }
 
 .currentLink {
-  /* border: 3px solid darkslategrey;
-  border-radius: 5px; */
   color: #3bedcf;
 }
 
@@ -44,13 +55,9 @@ h2 {
 }
 
 table {
-  /*font-family: arial, sans-serif;*/
   border-collapse: collapse;
   width: 100%;
   border-radius: 6px;
-  /* margin-left: 15px;
-  margin-right: 15px; */
-
 }
 
 td, th {
@@ -82,19 +89,12 @@ input[type=checkbox]{
   background-color: firebrick;
 }
 
-.buttonContainer {
-  text-align: center;
-  margin-top: 25px;
-  margin-bottom: 25px;
-}
+
 
 hr {
   border-top: 30px #dddddd;
 }
 
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-}
+
+
+*/

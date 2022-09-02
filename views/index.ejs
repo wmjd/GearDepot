@@ -12,52 +12,56 @@
 
 <% if(tickets.length){ %>
     <h3>Gear In Use</h3>
-    <table>
-        <tr>
-            <th>User</th>
-            <th>Gear ID</th>
-            <th>Quantity</th>
-            <th>Date Out</th>
-            <th>Location</th>
-        </tr>
-        <% tickets.forEach( (row) => { %>
+    <div class="scrollable">
+        <table class="table">
             <tr>
-                <td><%= row.user_id %></td>
-                <td><%= row.gear_id %></td>
-                <td><%= row.quantity %></td>
-                <% if(row.date_out){ %>
-                    <td><%= `${row.date_out.getMonth()+1}-${row.date_out.getDate()}-${row.date_out.getFullYear()}` %></td>
-                <% } else{ %>
-                    <td>NULL</td>
-                <% } %>
-                <td><%= row.destination %></td>
-            </tr><% }); %>
-    </table>
+                <th>User</th>
+                <th>GID</th>
+                <th>Quantity</th>
+                <th>Date Out</th>
+                <th>Location</th>
+            </tr>
+            <% tickets.forEach( (row) => { %>
+                <tr>
+                    <td><%= row.user_id %></td>
+                    <td><%= row.gear_id %></td>
+                    <td><%= row.quantity %></td>
+                    <% if(row.date_out){ %>
+                        <td><%= `${row.date_out.getMonth()+1}-${row.date_out.getDate()}-${row.date_out.getFullYear()}` %></td>
+                    <% } else{ %>
+                        <td>NULL</td>
+                    <% } %>
+                    <td><%= row.destination %></td>
+                </tr><% }); %>
+        </table>
+    </div>
     <% } %>
 
 
 
 <h3>Club Gear List</h3>
-<table>
-    <tr>
-        <th>Gear ID</th>
-        <th>Category</th>
-        <th>Manufacturer</th>
-        <th>Product</th>
-        <th>Color</th>
-        <th>Available</th>
-    </tr>
-    <% allGear.forEach( (row) => { %>
+<div class="scrollable">
+    <table class="table">
         <tr>
-            <td><%= row.gear_id %></td>
-            <td><%= row.category %></td>
-            <td><%= row.manufacturer %></td>
-            <td><%= row.product_name %></td>
-            <td><%= row.color %></td>
-            <td><%= row.available %> / <%= row.quantity %></td>
-        </tr><% }); %>
-</table>
-<br>
+            <th>GID</th>
+            <th>Category</th>
+            <th>Mfr.</th>
+            <th>Product</th>
+            <th>Color</th>
+            <th>Available</th>
+        </tr>
+        <% allGear.forEach( (row) => { %>
+            <tr>
+                <td><%= row.gear_id %></td>
+                <td><%= row.category %></td>
+                <td><%= row.manufacturer %></td>
+                <td><%= row.product_name %></td>
+                <td><%= row.color %></td>
+                <td><%= row.available %> / <%= row.quantity %></td>
+            </tr><% }); %>
+    </table>
+</div>
+
 
 
 

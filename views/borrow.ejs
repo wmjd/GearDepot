@@ -3,7 +3,8 @@
 
 <h3>Borrow Request Form </h3>
 <form enctype="application/x-www-form-urlencoded" method="post">
-    <table>
+    <div class="scrollable">
+        <table>
             <tr>
                 <th>Gear ID</th>
                 <th>Category</th>
@@ -41,8 +42,10 @@
   
             </tr><% }); %>
     </table>
+    </div>
+    
     <div class="buttonContainer">
-        <button type="submit">Submit Borrow Request</button>
+        <button type="submit" class="btn btn-primary">Submit Borrow Request</button>
     </div>
 </form>
 
@@ -50,30 +53,32 @@
 <hr>
 <h3>Pending Borrow Requests</h3>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/cancel-borrow-request">
-    <table>
-        <tr>
-            <th>User</th>
-            <th>Gear ID</th>
-            <th>Quantity</th>
-            <th>Location</th>
-            <th>Select</th>
-        </tr>
-        <% if(pending.forEach){ pending.forEach( (row) => { %>
+    <div class="scrollable">
+        <table>
             <tr>
-                <td><%= row.user_id %></td>
-                <td><%= row.gear_id %></td>
-                <td><%= row.quantity %></td>
-                <td><%= row.destination %></td>
-                <td>
-                    <input
-                        type="checkbox"
-                        name="<%= row.ticket_id %>"
-                    >
-                </td>
-            </tr><% });} %>
-    </table>
+                <th>User</th>
+                <th>Gear ID</th>
+                <th>Quantity</th>
+                <th>Location</th>
+                <th>Select</th>
+            </tr>
+            <% if(pending.forEach){ pending.forEach( (row) => { %>
+                <tr>
+                    <td><%= row.user_id %></td>
+                    <td><%= row.gear_id %></td>
+                    <td><%= row.quantity %></td>
+                    <td><%= row.destination %></td>
+                    <td>
+                        <input
+                            type="checkbox"
+                            name="<%= row.ticket_id %>"
+                        >
+                    </td>
+                </tr><% });} %>
+        </table>
+    </div>
     <div class="buttonContainer">
-        <button type="submit">Cancel Borrow Request</button>
+        <button type="submit" class="btn btn-danger">Cancel Borrow Request</button>
     </div>
 </form>
 <% } %>

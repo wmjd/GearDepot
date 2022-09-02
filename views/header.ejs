@@ -4,41 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title><%= title %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rock+Salt">
   <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
 
-  <nav>
-    <br>
-    <ul>
-    <% if(title == "Home"){ %> 
-    <li> <a class="currentLink" href="/">Home</a> </li>
-    <% } else { %>
-    <li> <a href="/">Home</a> </li>
-    <% } %>
-    
-    <% if(title == "Borrow"){ %> 
-    <li> <a class="currentLink" href="/borrow">Borrow</a> </li>
-    <% } else { %>
-    <li> <a href="/borrow">Borrow</a> </li>
-    <% } %>
-
-    <% if(title == "Return"){ %> 
-    <li> <a class="currentLink" href="/return">Return</a> </li>
-    <% } else { %>
-    <li> <a href="/return">Return</a> </li>
-    <% } %>
-
-    <% if(req.user.admin){ %> 
-      <% if(title == "Admin"){ %> 
-      <li> <a class="currentLink" href="/admin">Admin</a> </li>
-      <% } else { %>
-      <li> <a href="/admin">Admin</a> </li>
-      <% } %>
-    <% } %>
-    
-   <li> <a href="/logout">Logout</a> </li>
-
-      </ul>
-  <br>
-  </nav>
+  
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" style="font-family: 'Rock Salt', serif;">Gear Depot</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+          <a class="nav-link" href="/borrow">Borrow</a>
+          <a class="nav-link" href="/return">Return</a>
+          <a class="nav-link" href="/admin">Admin</a>
+          <a class="nav-link" href="/logout">Logout</a>
+        </div>
+      </div>
+    </div>
+  </nav> 

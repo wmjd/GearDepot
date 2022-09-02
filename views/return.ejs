@@ -4,36 +4,39 @@
 <br>
 <h2>Gear In Use</h2>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/return-request">
-    <table>
-        <tr>
-            <th>User</th>
-            <th>Gear ID</th>
-            <th>Quantity</th>
-            <th>Date Out</th>
-            <th>Location</th>
-            <th>Select</th>
-        </tr>
-        <% tickets.forEach( (row) => { %>
+    <div class="scrollable">
+        <table>
             <tr>
-                <td><%= row.user_id %></td>
-                <td><%= row.gear_id %></td>
-                <td><%= row.quantity %></td>
-                <% if(row.date_out){ %>
-                    <td><%= `${row.date_out.getMonth()+1}-${row.date_out.getDate()}-${row.date_out.getFullYear()}` %></td>
-                <% } else{ %>
-                    <td>NULL</td>
-                <% } %>
-                <td><%= row.destination %></td>
-                <td>
-                    <input
-                        type="checkbox"
-                        name="<%= row.ticket_id %>"
-                    >
-                </td>
-            </tr><% }); %>
-    </table>
+                <th>User</th>
+                <th>Gear ID</th>
+                <th>Quantity</th>
+                <th>Date Out</th>
+                <th>Location</th>
+                <th>Select</th>
+            </tr>
+            <% tickets.forEach( (row) => { %>
+                <tr>
+                    <td><%= row.user_id %></td>
+                    <td><%= row.gear_id %></td>
+                    <td><%= row.quantity %></td>
+                    <% if(row.date_out){ %>
+                        <td><%= `${row.date_out.getMonth()+1}-${row.date_out.getDate()}-${row.date_out.getFullYear()}` %></td>
+                    <% } else{ %>
+                        <td>NULL</td>
+                    <% } %>
+                    <td><%= row.destination %></td>
+                    <td>
+                        <input
+                            type="checkbox"
+                            name="<%= row.ticket_id %>"
+                        >
+                    </td>
+                </tr><% }); %>
+        </table>
+    </div>
+   
     <div class="buttonContainer">
-    <button type="submit">Submit Return Request</button>
+    <button type="submit" class="btn btn-primary">Submit Return Request</button>
     </div>
 </form>
 
@@ -43,36 +46,38 @@
 <hr><br>
 <h2>Pending Return Requests</h2>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/cancel-return-request">
-    <table>
-        <tr>
-            <th>User</th>
-            <th>Gear ID</th>
-            <th>Quantity</th>
-            <th>Date Out</th>
-            <th>Location</th>
-            <th>Select</th>
-        </tr>
-        <% pending.forEach( (row) => { %>
+    <div class="scrollable">
+        <table>
             <tr>
-                <td><%= row.user_id %></td>
-                <td><%= row.gear_id %></td>
-                <td><%= row.quantity %></td>
-                <% if(row.date_out){ %>
-                    <td><%= `${row.date_out.getMonth()+1}-${row.date_out.getDate()}-${row.date_out.getFullYear()}` %></td>
-                <% } else{ %>
-                    <td>NULL</td>
-                <% } %>
-                <td><%= row.destination %></td>
-                <td>
-                    <input
-                        type="checkbox"
-                        name="<%= row.ticket_id %>"
-                    >
-                </td>
-            </tr><% }); %>
-    </table>
+                <th>User</th>
+                <th>Gear ID</th>
+                <th>Quantity</th>
+                <th>Date Out</th>
+                <th>Location</th>
+                <th>Select</th>
+            </tr>
+            <% pending.forEach( (row) => { %>
+                <tr>
+                    <td><%= row.user_id %></td>
+                    <td><%= row.gear_id %></td>
+                    <td><%= row.quantity %></td>
+                    <% if(row.date_out){ %>
+                        <td><%= `${row.date_out.getMonth()+1}-${row.date_out.getDate()}-${row.date_out.getFullYear()}` %></td>
+                    <% } else{ %>
+                        <td>NULL</td>
+                    <% } %>
+                    <td><%= row.destination %></td>
+                    <td>
+                        <input
+                            type="checkbox"
+                            name="<%= row.ticket_id %>"
+                        >
+                    </td>
+                </tr><% }); %>
+        </table>
+    </div>
     <div class="buttonContainer">
-    <button type="submit">Cancel Return Request</button>
+    <button type="submit" class="btn btn-danger">Cancel Return Request</button>
     </div>
 </form>
 <% } %>
