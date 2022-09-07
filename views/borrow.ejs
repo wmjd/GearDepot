@@ -6,14 +6,14 @@
     <div class="scrollable">
         <table>
             <tr>
-                <th>Gear ID</th>
+                <th>GID</th>
                 <th>Category</th>
-                <th>Manufacturer</th>
+                <th>Mft.</th>
                 <th>Product</th>
                 <th>Color</th>
                 <th>Available</th>
-                <th>Quantity?</th>
-                <th>Location?</th>
+                <th>Quantity</th>
+                <th>Location</th>
             </tr>
         <% allGear.forEach( (row) => { %>
             <tr>
@@ -57,10 +57,10 @@
         <table>
             <tr>
                 <th>User</th>
-                <th>Gear ID</th>
+                <th>GID</th>
                 <th>Quantity</th>
                 <th>Location</th>
-                <th>Select</th>
+                
             </tr>
             <% if(pending.forEach){ pending.forEach( (row) => { %>
                 <tr>

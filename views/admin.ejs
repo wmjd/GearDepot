@@ -12,9 +12,8 @@
                 <th>User</th>
                 <th>GID</th>
                 <th>Quantity</th>
-                <th>Date Out</th>
+                <th>Date</th>
                 <th>Location</th>
-                <th>Select</th>
             </tr>
             <% if(checkin.forEach) { checkin.forEach( (row) => { %>
                 <tr>
@@ -48,17 +47,16 @@
 
 
 <% if(checkout.length){ %>
-<hr><br>
+<br>
 <h2>Borrow Request</h3>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/admin-checkout">
     <div class="scrollable">
-        <table class="table">
+        <table class="table _table">
             <tr>
                 <th>User</th>
                 <th>GID</th>
                 <th>Quantity</th>
                 <th>Location</th>
-                <th>Select</th>
             </tr>
             <% if(checkout.forEach){ checkout.forEach( (row) => { %>
                 <tr>

@@ -13,12 +13,12 @@
 <% if(tickets.length){ %>
     <h3>Gear In Use</h3>
     <div class="scrollable">
-        <table class="table">
+        <table class="table table_">
             <tr>
                 <th>User</th>
                 <th>GID</th>
                 <th>Quantity</th>
-                <th>Date Out</th>
+                <th>Date</th>
                 <th>Location</th>
             </tr>
             <% tickets.forEach( (row) => { %>
@@ -41,7 +41,7 @@
 
 <h3>Club Gear List</h3>
 <div class="scrollable">
-    <table class="table">
+    <table class="table table_">
         <tr>
             <th>GID</th>
             <th>Category</th>

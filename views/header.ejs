@@ -11,18 +11,40 @@
 <body>
 
   
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#" style="font-family: 'Rock Salt', serif;">Gear Depot</a>
+      <a class="navbar-brand" href="#" style="font-family: 'Rock Salt', serif;">
+        <img src="/images/logo.jpeg" alt=""  height="50" class="d-inline-block align-text-top">
+        Gear Depot
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link active" aria-current="page" href="/">Home</a>
-          <a class="nav-link" href="/borrow">Borrow</a>
-          <a class="nav-link" href="/return">Return</a>
-          <a class="nav-link" href="/admin">Admin</a>
+          <% if(title == "Home"){ %> 
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          <% } else { %>
+            <a class="nav-link" href="/">Home</a>
+          <% } %>
+          <% if(title == "Borrow"){ %> 
+            <a class="nav-link active" aria-current="page" href="/borrow">Borrow</a>
+          <% } else { %>
+            <a class="nav-link" href="/borrow">Borrow</a>
+          <% } %>
+          <% if(title == "Return"){ %> 
+            <a class="nav-link active" aria-current="page" href="/return">Return</a>
+          <% } else { %>
+            <a class="nav-link" href="/return">Return</a>
+          <% } %>
+          <% if(req.user.admin){ %> 
+            <% if(title == "Admin"){ %> 
+              <a class="nav-link active" aria-current="page" href="/admin">Admin</a>
+            <% } else { %>
+              <a class="nav-link" href="/admin">Admin</a>
+            <% } %>
+          <% } %>
+
           <a class="nav-link" href="/logout">Logout</a>
         </div>
       </div>
