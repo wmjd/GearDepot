@@ -7,30 +7,35 @@
 <h2>Return Request</h3>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/admin-checkin">
     <div class="scrollable">
-        <table class="table">
-            <tr>
-                <th>User</th>
-                <th>GID</th>
-                <th>Quantity</th>
-                <th>Date</th>
-                <th>Location</th>
-                <th></th>
-            </tr>
-            <% if(checkin.forEach) { checkin.forEach( (row) => { %>
+        <table class="table table-primary table-striped table-sm table_">
+            <thead class="table-dark">
                 <tr>
-                    <td><%= row.user_id %></td>
-                    <td><%= row.gear_id %></td>
-                    <td><%= row.quantity %></td>
-                    <td><%= `${row.date_out.getMonth()+1}-${row.date_out.getDate()}-${row.date_out.getFullYear()}` %></td>
-                    <td><%= row.destination %></td>
-                    <td>
-                        <input
-                            type="radio"
-                            value="<%= row.ticket_id %>"
-                            name="ticket_id"
-                        >
-                    </td>
-                </tr><% });} %>
+                    <th>User</th>
+                    <th>GID</th>
+                    <th>Quantity</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(checkin.forEach) { checkin.forEach( (row) => { %>
+                    <tr>
+                        <td><%= row.user_id %></td>
+                        <td><%= row.gear_id %></td>
+                        <td><%= row.quantity %></td>
+                        <td><%= `${row.date_out.getMonth()+1}-${row.date_out.getDate()}-${row.date_out.getFullYear()}` %></td>
+                        <td><%= row.destination %></td>
+                        <td>
+                            <input
+                                type="radio"
+                                value="<%= row.ticket_id %>"
+                                name="ticket_id"
+                            >
+                        </td>
+                    </tr><% });} %>
+            </tbody>
+           
         </table>
     </div>
     
@@ -52,28 +57,33 @@
 <h2>Borrow Request</h3>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/admin-checkout">
     <div class="scrollable">
-        <table class="table _table">
-            <tr>
-                <th>User</th>
-                <th>GID</th>
-                <th>Quantity</th>
-                <th>Location</th>
-                <th></th>
-            </tr>
-            <% if(checkout.forEach){ checkout.forEach( (row) => { %>
+        <table class="table table-primary table-striped table-sm table_">
+            <thead class="table-dark">
                 <tr>
-                    <td><%= row.user_id %></td>
-                    <td><%= row.gear_id %></td>
-                    <td><%= row.quantity %></td>
-                    <td><%= row.destination %></td>
-                    <td>
-                        <input
-                            type="radio"
-                            value="<%= row.ticket_id %>"
-                            name="ticket_id"
-                        >
-                    </td>
-                </tr><% });} %>
+                    <th>User</th>
+                    <th>GID</th>
+                    <th>Quantity</th>
+                    <th>Location</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(checkout.forEach){ checkout.forEach( (row) => { %>
+                    <tr>
+                        <td><%= row.user_id %></td>
+                        <td><%= row.gear_id %></td>
+                        <td><%= row.quantity %></td>
+                        <td><%= row.destination %></td>
+                        <td>
+                            <input
+                                type="radio"
+                                value="<%= row.ticket_id %>"
+                                name="ticket_id"
+                            >
+                        </td>
+                    </tr><% });} %>
+            </tbody>
+            
         </table>
     </div>
     
