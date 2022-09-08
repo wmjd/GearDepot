@@ -328,7 +328,7 @@ router.post('/register', (req, res, next) => {
 
 // get auth routes
 router.get('/login', function(req, res, next) {
-  res.render('login');
+  res.render('login', {title: "Login"});
 })
 
 router.get('/register', (req, res, next) => {

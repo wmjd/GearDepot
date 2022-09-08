@@ -38,7 +38,7 @@
           <% } else { %>
             <a class="nav-link" href="/return">Return</a>
           <% } %>
-          <% if(req.user.admin){ %> 
+          <% if(req.user && req.user.admin){ %> 
             <% if(title == "Admin"){ %> 
               <a class="nav-link active" aria-current="page" href="/admin">Admin</a>
             <% } else { %>
@@ -46,7 +46,10 @@
             <% } %>
           <% } %>
 
-          <a class="nav-link" href="/logout">Logout</a>
+          <% if(req.user){ %>
+            <a class="nav-link" href="/logout">Logout</a>
+          <% } %>
+          
         </div>
       </div>
     </div>
