@@ -5,13 +5,14 @@
 <h2>Gear In Use</h2>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/return-request">
     <div class="scrollable">
-        <table>
+        <table class="table table_">
             <tr>
                 <th>User</th>
                 <th>GID</th>
                 <th>Quantity</th>
                 <th>Date</th>
                 <th>Location</th>
+                <th></th>
             </tr>
             <% tickets.forEach( (row) => { %>
                 <tr>
@@ -42,17 +43,18 @@
 <% } %>
 
 <% if(pending.length){ %>
-<hr><br>
+<br>
 <h2>Pending Return Requests</h2>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/cancel-return-request">
     <div class="scrollable">
-        <table>
+        <table class="table table_">
             <tr>
                 <th>User</th>
                 <th>GID</th>
                 <th>Quantity</th>
                 <th>Date</th>
                 <th>Location</th>
+                <th></th>
             </tr>
             <% pending.forEach( (row) => { %>
                 <tr>

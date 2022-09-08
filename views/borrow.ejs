@@ -1,10 +1,10 @@
 <%- include('header.ejs') -%>
     
-
-<h3>Borrow Request Form </h3>
+<br>
+<h2>Borrow Request Form </h2>
 <form enctype="application/x-www-form-urlencoded" method="post">
     <div class="scrollable">
-        <table>
+        <table class="table table_">
             <tr>
                 <th>GID</th>
                 <th>Category</th>
@@ -50,16 +50,17 @@
 </form>
 
 <% if(pending && pending.length){ %>
-<hr>
-<h3>Pending Borrow Requests</h3>
+<br>
+<h2>Pending Borrow Requests</h2>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/cancel-borrow-request">
     <div class="scrollable">
-        <table>
+        <table class="table table_">
             <tr>
                 <th>User</th>
                 <th>GID</th>
                 <th>Quantity</th>
                 <th>Location</th>
+                <th></th>
                 
             </tr>
             <% if(pending.forEach){ pending.forEach( (row) => { %>
