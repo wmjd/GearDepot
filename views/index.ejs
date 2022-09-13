@@ -1,8 +1,10 @@
 <%- include('header.ejs') -%>
 
+<% let repr = {"New Jack City": "Barstow CA", "Bishop": "Bishop CA", "Big Bear Lake": "Big Bear Lake", "Culp Valley": "Culp Valley", "Joshua Tree": "Joshua Tree", "Red Rock": "Red Rock Canyon", "San Diego": "San Diego", "Yosemite": "Yosemite"}; %>
 <% let url = `https://maps.googleapis.com/maps/api/staticmap?center=Barstow,CA&zoom=6&size=600x600&maptype=roadmap&key=${key}` %>
 <% tickets.forEach( row => { %>
-    <% url += `&markers=label:${ row.destination[0].toUpperCase() }%7C${ row.destination.replace(/\s/g, '+') }` %>
+    <% let r = repr[row.destination] || row.destination %>
+    <% url += `&markers=label:${ r[0].toUpperCase() }%7C${ r.replace(/\s/g, '+') }` %>
 <% }) %>
 
 <br>
