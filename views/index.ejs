@@ -57,9 +57,9 @@
             <tr>
                 <th>GID</th>
                 <th>Category</th>
-                <th>Mfr.</th>
                 <th>Product</th>
                 <th>Color</th>
+                <th>Mfr.</th>
                 <th>Available</th>
             </tr>
         </thead>
@@ -68,9 +68,9 @@
                 <tr>
                     <td><%= row.gear_id %></td>
                     <td><%= row.category %></td>
-                    <td><%= row.manufacturer %></td>
                     <td><%= row.product_name %></td>
                     <td><%= row.color %></td>
+                    <td><%= row.manufacturer %></td>
                     <td><%= row.available %> / <%= row.quantity %></td>
                 </tr><% }); %>
         </tbody>
