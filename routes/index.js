@@ -315,7 +315,7 @@ router.post('/register', (req, res, next) => {
        username: req.body.uname,
        hash: hash,
        salt: salt,
-       admin: true
+       admin: false
    });
 
    newUser.save()
