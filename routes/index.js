@@ -82,10 +82,13 @@ router.post('/borrow', isAuth, function(req, res, next) {
 router.post('/cancel-borrow-request', isAuth, function(req, res, next) {
   if(Object.keys(req.body).length == 0){
     res.redirect('/borrow');
-  } else {  
+  } else {
+    console.log(req.body)  
     const tix = Object.keys(req.body);
+    console.log(tix);
     let formattedIDs = "(";
     tix.forEach((ticket_id, index) => {
+      console.log(ticket_id)
       formattedIDs += `'${ticket_id}'`;
       formattedIDs += (index == tix.length-1 ? ")" : ",");
     });
@@ -99,17 +102,21 @@ router.post('/cancel-borrow-request', isAuth, function(req, res, next) {
   }
 })
 
+/* This routes handles the request differently than /cancel-borrow-request because of radio btn vs. checkbox
+req.body looks like {ticket_id: <int>} for radio buttons.
+req.body looks like {Sequence of '<int>': 'on'} for checkboxes can be a nontrivial sequence. 
+Essentially, the entity of interest in these key-value pairs is the key for radio and the value(s) for check.
+*/
 
 router.post('/admin-cancel-borrow-request', isAuth, function(req, res, next) {
   if(Object.keys(req.body).length == 0){
     res.redirect('/admin');
   } else {  
+    console.log(req.body)  
     const tix = Object.keys(req.body);
-    let formattedIDs = "(";
-    tix.forEach((ticket_id, index) => {
-      formattedIDs += `'${ticket_id}'`;
-      formattedIDs += (index == tix.length-1 ? ")" : ",");
-    });
+    console.log(tix);
+    console.log(req.body["ticket_id"]);
+    let formattedIDs = "(" + req.body["ticket_id"] + ")";
     const queryString = `DELETE FROM tickets WHERE ticket_id IN ${formattedIDs}`;
     sql.getConnection(function(err, mclient) {
       mclient.query(queryString, (err, ticketResult, fields) => {
@@ -182,11 +189,7 @@ router.post('/admin-cancel-return-request', isAuth, function(req, res, next) {
     res.redirect('/admin');
   } else {  
     const tix = Object.keys(req.body);
-    let formattedIDs = "(";
-    tix.forEach((ticket_id, index) => {
-      formattedIDs += `'${ticket_id}'`;
-      formattedIDs += (index == tix.length-1 ? ")" : ",");
-    });
+    let formattedIDs = "(" + req.body["ticket_id"] + ")";
     const queryString = `UPDATE tickets SET return_req=False WHERE ticket_id IN ${formattedIDs}`;
     sql.getConnection(function(err, mclient) {
       mclient.query(queryString, (err, ticketResult, fields) => {
