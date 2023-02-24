@@ -211,10 +211,48 @@ router.get('/admin', isAdmin, function(req, res, next) {
       //console.log(checkoutReqs);
       mclient.query("SELECT * FROM tickets WHERE date_in IS NULL AND return_req=True", (err, checkinReqs, fields) => {
         if (err) throw err;
-        res.render('admin',{ title: "Admin", checkin: checkinReqs, checkout: checkoutReqs});
+        mclient.query("SELECT * FROM tickets WHERE date_in IS NULL AND date_out IS NOT NULL ORDER BY date_out", (err, ticketResult, fields) => {
+          if (err) throw err;
+          res.render('admin',{ title: "Admin", checkin: checkinReqs, checkout: checkoutReqs, tickets: ticketResult });
+        })
       });
     })     
   })
+});
+
+router.post('/force-return', isAuth, function(req, res, next) {
+  if(Object.keys(req.body).length == 0){
+    res.redirect('/admin');
+  } else {  
+    console.log("asdasdasd", req.body);
+    const ticketId = req.body["ticket_id"];
+    console.log("tickedId=", ticketId);
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = d.getMonth();
+    const day = d.getDate();
+    const date_in = `'${year}-${month+1}-${day}'`;
+    const queryString = `UPDATE tickets SET return_req=True, date_in=${date_in} WHERE ticket_id=${ticketId}`;
+    sql.getConnection(function(err, mclient) {
+      mclient.query(queryString, (err, ticketResult, fields) => {
+        mclient.query(queryString, (err, ticketResult, fields) => {
+          if (err) throw err;
+          sql.getConnection(function(err, mcliebt) {
+            const gearId = `(SELECT gear_id FROM tickets WHERE ticket_id=${ticketId})`;
+            const newQuantity = `(SELECT
+            (SELECT quantity FROM (SELECT * FROM gear) as x WHERE gear_id=${gearId}) - 
+            (SELECT IFNULL((SELECT SUM(quantity) FROM tickets WHERE date_out IS NOT NULL AND date_in IS NULL AND gear_id=${gearId}), 0)))`;
+            const updateString = `UPDATE gear SET available=${newQuantity} WHERE gear_id=${gearId}`;
+            console.log(updateString);
+            mclient.query(updateString, (err, gearResult, fields) => {
+              if (err) throw err;
+              res.redirect('/admin');
+            })
+          });    
+        });
+      })
+    });
+  }
 });
 
 router.post('/admin-checkin', isAdmin, (req, res, next) => {

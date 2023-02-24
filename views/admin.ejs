@@ -94,5 +94,51 @@
 </form>
 <% } %>
 
+<% if(tickets.length){ %>
+    <br>
+    <h2>Gear In Use</h2>
+    <form enctype="application/x-www-form-urlencoded" method="post" action="/force-return">
+        <div class="scrollable">
+            <table class="table table-danger table-striped table-table-sm table_">
+                <thead class="table-dark">
+                    <tr>
+                        <th>User</th>
+                        <th>GID</th>
+                        <th>Quantity</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% tickets.forEach( (row) => { %>
+                        <tr>
+                            <td><%= row.user_id %></td>
+                            <td><%= row.gear_id %></td>
+                            <td><%= row.quantity %></td>
+                            <% if(row.date_out){ %>
+                                <td><%= `${row.date_out.getMonth()+1}-${row.date_out.getDate()}-${row.date_out.getFullYear()}` %></td>
+                            <% } else{ %>
+                                <td>NULL</td>
+                            <% } %>
+                            <td><%= row.destination %></td>
+                            <td>
+                                <input
+                                    type="radio"
+                                    value="<%= row.ticket_id %>"
+                                    name="ticket_id"
+                                >
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>       
+            </table>
+        </div>
+        <div class="buttonContainer">
+            <button type="submit" class="btn btn-primary">Force Return</button>
+        </div>
+    </form>
+    
+    <% } %>
 
 <%- include('footer.ejs') -%>
