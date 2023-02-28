@@ -7,6 +7,7 @@ const connection = require('../lib/mongooseConn');
 const User = connection.models.User;
 const isAuth = require('../lib/auth').isAuth;
 const isAdmin = require('../lib/auth').isAdmin;
+const e = require('express');
 
 /* GET home page. */
 router.get('/', isAuth, function(req, res, next) {
@@ -211,10 +212,13 @@ router.get('/admin', isAdmin, function(req, res, next) {
       //console.log(checkoutReqs);
       mclient.query("SELECT * FROM tickets WHERE date_in IS NULL AND return_req=True", (err, checkinReqs, fields) => {
         if (err) throw err;
-        mclient.query("SELECT * FROM tickets WHERE date_in IS NULL AND date_out IS NOT NULL ORDER BY date_out", (err, ticketResult, fields) => {
+        mclient.query("SELECT * FROM gear", (err, gearResult, fields) => {
           if (err) throw err;
-          res.render('admin',{ title: "Admin", checkin: checkinReqs, checkout: checkoutReqs, tickets: ticketResult });
-        })
+          mclient.query("SELECT * FROM tickets WHERE date_in IS NULL AND date_out IS NOT NULL ORDER BY date_out", (err, ticketResult, fields) => {
+            if (err) throw err;
+            res.render('admin',{ title: "Admin", checkin: checkinReqs, checkout: checkoutReqs, allGear: gearResult, tickets: ticketResult });
+          })
+        });
       });
     })     
   })
@@ -342,6 +346,44 @@ router.post('/admin-checkout', isAdmin, (req, res, next) => {
   }
 })
 
+
+router.post('/admin-add', isAdmin, (req, res, next) => {
+  console.log(req.body);
+  let row = `(NULL, "${req.body.category}", "${req.body.mfr}", "${req.body.product}", "${req.body.color}", ${req.body.quantity}, ${req.body.quantity}, NULL)`
+  //(NULL, 'Rope', 'Sterling', '70m', 'Green/Blue', 1, 1, NULL),
+
+  console.log(row)
+  sql.getConnection(function(err, mclient) {
+    mclient.query(`INSERT INTO gear VALUES ${row}`, (err, result, fields) => {
+      if (err) throw err;
+      res.redirect('/admin');
+    });
+  });
+
+});
+
+router.post('/admin-delete', isAdmin, (req, res, next) => {
+  //console.log(req.body);
+  
+  
+  sql.getConnection(function(err, mclient) {
+    mclient.query(`SELECT * FROM gear WHERE gear_id=${req.body.gid}`, (err, gearResult, fields) => {
+      if (err) throw err;
+      //console.log(gearResult[0]);
+      if(gearResult[0].available == gearResult[0].quantity){
+        sql.getConnection(function(err, mclient) {
+          mclient.query(`DELETE FROM gear WHERE gear_id=${req.body.gid}`, (err, gearResult, fields) => {
+            if (err) throw err;
+            res.redirect('/admin');
+          });
+        });
+      }else{
+        res.redirect('/admin');
+      }
+    });
+  });
+
+});
 
 // post auth routes
 router.post('/login', passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/' }));

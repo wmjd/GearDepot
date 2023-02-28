@@ -135,10 +135,77 @@
             </table>
         </div>
         <div class="buttonContainer">
-            <button type="submit" class="btn btn-primary">Force Return</button>
+            <button type="submit" class="btn btn-warning btn-outline-dark">Force Return</button>
         </div>
     </form>
     
     <% } %>
+    <br>
+    <h2>Club Gear List</h2>
+<div class="scrollable">
+    <table class="table table-info table-striped table-sm table_">
+        <thead class="table-dark">
+            <tr>
+                <th>GID</th>
+                <th>Category</th>
+                <th>Product</th>
+                <th>Color</th>
+                <th>Mfr.</th>
+                <th>Available</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% allGear.forEach( (row) => { %>
+                <tr>
+                    <td><%= row.gear_id %></td>
+                    <td><%= row.category %></td>
+                    <td><%= row.product_name %></td>
+                    <td><%= row.color %></td>
+                    <td><%= row.manufacturer %></td>
+                    <td><%= row.available %> / <%= row.quantity %></td>
+                </tr><% }); %>
+        </tbody>
+    </table>
+</div>
+<div class="buttonContainer">
+            <button onclick="document.getElementById('gearEntryWrapper').classList.toggle('guarded')" class="btn btn-warning btn-outline-dark">Add Gear</button>
+            <button onclick="document.getElementById('gearRemovalWrapper').classList.toggle('guarded')" class="btn btn-warning btn-outline-dark">Remove Gear</button>
+        </div>
+
+<div id="gearEntryWrapper" class="guarded">
+    <br>
+    <h3>Gear Entry Form</h3>
+    <br>
+    <form enctype="application/x-www-form-urlencoded" method="post" action="/admin-add"> 
+        <label for="category">Category:</label><br>
+        <input type="text" name="category" id="category"><br>
+        <label for="product">Product:</label><br>
+        <input type="text" name="product" id="product"><br>
+        <label for="color">Color:</label><br>
+        <input type="text" name="color" id="color"><br>
+        <label for="mfr">Manufacturer:</label><br>
+        <input type="text" name="mfr" id="mfr"><br>
+        <label for="quantity">Quantity:</label><br>
+        <input type="text" name="quantity" id="quantity"><br>
+        <div class="buttonContainer">
+            <br>
+            <button type="submit" class="btn btn-warning btn-outline-dark">Submit</button>
+        </div>
+    </form>
+</div>
+
+<div id="gearRemovalWrapper" class="guarded">
+    <br>
+    <h3>Gear Removal Form</h3>
+    <br>
+    <form enctype="application/x-www-form-urlencoded" method="post" action="/admin-delete">
+        <label for="gid">Gear ID:</label><br>
+        <input type="text" name="gid" id="gid"><br>
+        <div class="buttonContainer">
+            <br>
+            <button type="submit" class="btn btn-warning btn-outline-dark">Submit</button>
+        </div>
+    </form>
+</div>
 
 <%- include('footer.ejs') -%>

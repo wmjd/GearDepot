@@ -10,13 +10,23 @@
   font-family: Monospace;
 }
 
-h1, h2, h3, h4 {
+label, h1, h2, h3, h4 {
   font-family: Raleway;
   text-align: center;
 }
 
+.guarded {
+  display: none
+}
 
+#gearEntryWrapper, #gearRemovalWrapper {
+  font-family: Monospace;
+  text-align: center;
+}
 
+#test {  
+  font-family: Monospace;
+  text-align: center;}
 
 /*
 
