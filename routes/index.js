@@ -349,17 +349,20 @@ router.post('/admin-checkout', isAdmin, (req, res, next) => {
 
 router.post('/admin-add', isAdmin, (req, res, next) => {
   console.log(req.body);
-  let row = `(NULL, "${req.body.category}", "${req.body.mfr}", "${req.body.product}", "${req.body.color}", ${req.body.quantity}, ${req.body.quantity}, NULL)`
-  //(NULL, 'Rope', 'Sterling', '70m', 'Green/Blue', 1, 1, NULL),
+  if(!Number.isInteger(req.body.quantity)){
+    res.redirect('/admin')
+  }else{
+    let row = `(NULL, "${req.body.category}", "${req.body.mfr}", "${req.body.product}", "${req.body.color}", ${req.body.quantity}, ${req.body.quantity}, NULL)`
+    //(NULL, 'Rope', 'Sterling', '70m', 'Green/Blue', 1, 1, NULL),
 
-  console.log(row)
-  sql.getConnection(function(err, mclient) {
-    mclient.query(`INSERT INTO gear VALUES ${row}`, (err, result, fields) => {
-      if (err) throw err;
-      res.redirect('/admin');
+    console.log(row)
+    sql.getConnection(function(err, mclient) {
+      mclient.query(`INSERT INTO gear VALUES ${row}`, (err, result, fields) => {
+        if (err) throw err;
+        res.redirect('/admin');
+      });
     });
-  });
-
+  }
 });
 
 router.post('/admin-delete', isAdmin, (req, res, next) => {
@@ -367,20 +370,25 @@ router.post('/admin-delete', isAdmin, (req, res, next) => {
   
   
   sql.getConnection(function(err, mclient) {
-    mclient.query(`SELECT * FROM gear WHERE gear_id=${req.body.gid}`, (err, gearResult, fields) => {
-      if (err) throw err;
-      //console.log(gearResult[0]);
-      if(gearResult[0].available == gearResult[0].quantity){
-        sql.getConnection(function(err, mclient) {
-          mclient.query(`DELETE FROM gear WHERE gear_id=${req.body.gid}`, (err, gearResult, fields) => {
-            if (err) throw err;
-            res.redirect('/admin');
+    if(!Number.isInteger(req.body.gid)){
+      res.redirect('/admin')
+    }else{
+      mclient.query(`SELECT * FROM gear WHERE gear_id=${req.body.gid}`, (err, gearResult, fields) => {
+        if (err) throw err;
+        //console.log(gearResult[0]);
+        if(gearResult[0] && (gearResult[0].available == gearResult[0].quantity)){
+          sql.getConnection(function(err, mclient) {
+            mclient.query(`DELETE FROM gear WHERE gear_id=${req.body.gid}`, (err, gearResult, fields) => {
+              if (err) throw err;
+              res.redirect('/admin');
+            });
           });
-        });
-      }else{
-        res.redirect('/admin');
-      }
-    });
+        }else{
+          res.redirect('/admin');
+        }
+      });
+    }
+    
   });
 
 });
