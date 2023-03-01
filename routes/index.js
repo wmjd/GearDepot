@@ -349,10 +349,12 @@ router.post('/admin-checkout', isAdmin, (req, res, next) => {
 
 router.post('/admin-add', isAdmin, (req, res, next) => {
   console.log(req.body);
-  if(!Number.isInteger(req.body.quantity)){
+  let q = parseInt(req.body.quantity)
+  if(!Number.isInteger(q)){
+    console.log("quantity is not a number")
     res.redirect('/admin')
   }else{
-    let row = `(NULL, "${req.body.category}", "${req.body.mfr}", "${req.body.product}", "${req.body.color}", ${req.body.quantity}, ${req.body.quantity}, NULL)`
+    let row = `(NULL, "${req.body.category}", "${req.body.mfr}", "${req.body.product}", "${req.body.color}", ${q}, ${q}, NULL)`
     //(NULL, 'Rope', 'Sterling', '70m', 'Green/Blue', 1, 1, NULL),
 
     console.log(row)
@@ -370,7 +372,9 @@ router.post('/admin-delete', isAdmin, (req, res, next) => {
   
   
   sql.getConnection(function(err, mclient) {
-    if(!Number.isInteger(req.body.gid)){
+    let gid = parseInt(req.body.gid)
+    if(!Number.isInteger(gid)){
+      console.log("gid is not a number")
       res.redirect('/admin')
     }else{
       mclient.query(`SELECT * FROM gear WHERE gear_id=${req.body.gid}`, (err, gearResult, fields) => {
