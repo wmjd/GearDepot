@@ -433,7 +433,7 @@ router.post('/admin-edit', isAdmin, (req, res, next) => {
     }else{
       console.log(field);
       sql.getConnection(function(err, mclient){
-        mclient.query(`UPDATE gear SET ${field} = ${newVal} WHERE gear_id=${gid}`, (err, gearResult, fields) => {
+        mclient.query(`UPDATE gear SET ${field} = "${newVal}" WHERE gear_id=${gid}`, (err, gearResult, fields) => {
           if (err) throw err;
           res.redirect('/admin');
         });
