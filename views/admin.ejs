@@ -169,6 +169,7 @@
 </div>
 <div class="buttonContainer">
             <button onclick="document.getElementById('gearEntryWrapper').classList.toggle('guarded')" class="btn btn-warning btn-outline-dark">Add Gear</button>
+            <button onclick="document.getElementById('gearEditWrapper').classList.toggle('guarded')" class="btn btn-warning btn-outline-dark">Edit Gear</button>
             <button onclick="document.getElementById('gearRemovalWrapper').classList.toggle('guarded')" class="btn btn-warning btn-outline-dark">Remove Gear</button>
         </div>
 
@@ -187,6 +188,33 @@
         <input type="text" name="mfr" id="mfr"><br>
         <label for="quantity">Quantity:</label><br>
         <input type="text" name="quantity" id="quantity"><br>
+        <div class="buttonContainer">
+            <br>
+            <button type="submit" class="btn btn-warning btn-outline-dark">Submit</button>
+        </div>
+    </form>
+</div>
+
+<div id="gearEditWrapper" class="guarded">
+    <br>
+    <h3>Gear Edit Form</h3>
+    <br>
+    <form enctype="application/x-www-form-urlencoded" method="post" action="/admin-edit">
+        <label for="gid">Gear ID:</label><br>
+        <input type="text" name="gid" id="gid"><br>
+        <label for="category">Category:</label>
+        <input type="radio" name="category" id="category"><br>
+        <label for="product">Product:</label>
+        <input type="radio" name="product" id="product"><br>
+        <label for="color">Color:</label>
+        <input type="radio" name="color" id="color"><br>
+        <label for="mfr">Manufacturer:</label>
+        <input type="radio" name="mfr" id="mfr"><br>
+        <label for="quantity">Quantity:</label>
+        <input type="radio" name="quantity" id="quantity"><br>
+        <label for="new">New Value:</label><br>
+        <input type="text" name="new" id="new"><br>
+
         <div class="buttonContainer">
             <br>
             <button type="submit" class="btn btn-warning btn-outline-dark">Submit</button>

@@ -392,9 +392,54 @@ router.post('/admin-delete', isAdmin, (req, res, next) => {
         }
       });
     }
-    
   });
+});
 
+router.post('/admin-edit', isAdmin, (req, res, next) => {
+  if(Object.keys(req.body).length != 3){
+    res.redirect('/admin');
+  }else{
+    let gid = parseInt(req.body.gid);
+    let field = Object.keys(req.body)[1];
+    let newVal = req.body.new;
+    if(!Number.isInteger(gid)){
+      res.redirect('/admin');
+    }else if(field == 'quantity'){
+      if(!Number.isInteger(newVal = parseInt(newVal))){
+        res.redirect('/admin');
+      }else{
+        sql.getConnection(function(err, mclient){
+          mclient.query(`SELECT * FROM GEAR WHERE gear_id=${gid}`, (err, gearResult, fields) => {
+            if (err) throw err;
+            console.log(gearResult);
+            let avail = gearResult[0].available;
+            let quant = gearResult[0].quantity;
+            let lent = quant - avail;
+            let delta = newVal - quant;
+            if(newVal < lent){
+              res.redirect('/admin');
+            }else{
+              sql.getConnection(function(err, mclient){
+                console.log(avail+delta, avail, delta);
+                mclient.query(`UPDATE gear SET quantity=${newVal}, available=${avail+delta} WHERE gear_id=${gid}`, (err, gearResult, fields) => {
+                  if (err) throw err;
+                  res.redirect('/admin');
+                });
+              });
+            }
+          });
+        });
+      }
+    }else{
+      console.log(field);
+      sql.getConnection(function(err, mclient){
+        mclient.query(`UPDATE gear SET ${field} = ${newVal} WHERE gear_id=${gid}`, (err, gearResult, fields) => {
+          if (err) throw err;
+          res.redirect('/admin');
+        });
+      });
+    }
+  }
 });
 
 // post auth routes

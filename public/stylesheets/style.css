@@ -19,7 +19,7 @@ label, h1, h2, h3, h4 {
   display: none
 }
 
-#gearEntryWrapper, #gearRemovalWrapper {
+#gearEntryWrapper, #gearRemovalWrapper, #gearEditWrapper {
   font-family: Monospace;
   text-align: center;
 }
